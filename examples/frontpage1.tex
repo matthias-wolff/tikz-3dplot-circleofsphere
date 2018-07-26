@@ -1,0 +1,18 @@
+\documentclass{standalone}
+\usepackage{tikz-3dplot-circleofsphere}
+\begin{document}
+  \centering
+  \def\R{3}
+  \tdplotsetmaincoords{60}{125}
+  \begin{tikzpicture}[tdplot_main_coords]
+    \draw[tdplot_screen_coords,very thin,gray] (0,0,0) circle (\R);
+    \tdplotCsDrawLatCircle%
+      [thick,tdplotCsFill/.style={opacity=0.05}]{\R}{0}
+    \tdplotCsDrawGreatCircle%
+      [red,thick,tdplotCsFill/.style={opacity=0.1}]{\R}{105}{-23.5}
+    \foreach \a in {-75,-60,...,75} 
+      {\tdplotCsDrawLatCircle[very thin,gray]{\R}{\a}}
+    \foreach \a in {0,15,...,165} 
+      {\tdplotCsDrawLonCircle[very thin,gray]{\R}{\a}}
+  \end{tikzpicture}
+\end{document}

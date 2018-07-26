@@ -1,0 +1,172 @@
+%% == LaTeX PACKAGE tikz-3dplot-circleofsphere ================================
+%%    Drawing circles of a sphere with tikz-3dplot
+%% 
+%% Matthias Wolff, BTU Cottbus-Sentenberg
+%% July 26, 2018
+%%
+%% References:
+%% [1] J. Hein. The tikz-3dplot package. 2012. Online, retrieved July 20, 2018.
+%%     https://mirror.hmc.edu/ctan/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf
+%% [2] T. Tantau. TikZ & PGF - Manual for Version 3.0.1a. 2015. Online, retrieved July 22, 2018.
+%%     https://mirror.reismil.ch/CTAN/graphics/pgf/base/doc/pgfmanual.pdf
+%% [3] Drawing Great Circles
+%%     https://tex.stackexchange.com/questions/168521/spherical-triangles-and-great-circles
+
+%% == REQUIRED PACKAGES =======================================================
+
+\RequirePackage{xifthen}
+\RequirePackage{tikz}
+\RequirePackage{tikz-3dplot}
+
+%% == TikZ STYLES =============================================================
+
+\tikzset{
+  tdplotCsFront/.style={solid},
+  tdplotCsBack/.style={dashed},
+  tdplotCsFill/.style={opacity=0},
+  tdplotPtFront/.style={},
+  tdplotPtBack/.style={},
+  tdplotCsDrawAux/.style={}
+}
+
+%% == COMMANDS ================================================================
+
+\newcommand{\tdplotCsComputeTransformRotScreen}{%
+  % Computes the elements of the full rotation matrix
+  % 
+  %   A = [\axx \axy \axz]
+  %       [\ayx \ayy \ayz]
+  %       [\azx \azy \azz].
+  %
+  % Ouput:
+  %   \axx - Element A(1,1) of rotation matrix
+  %   \axy - Element A(1,2) of rotation matrix
+  %   ...
+  %   \azz - Element A(3,3) of rotation matrix
+  %
+  \let\a\tdplotalpha
+  \let\b\tdplotbeta
+  \let\p\tdplotmainphi
+  \let\t\tdplotmaintheta
+  % Row 1: [\axx \axy \axz]
+  \pgfmathsetmacro\axx{cos(\a)*cos(\b)*cos(\p) + cos(\b)*sin(\a)*sin(\p)}
+  \pgfmathsetmacro\axy{cos(\a)*sin(\p) - cos(\p)*sin(\a)}
+  \pgfmathsetmacro\axz{cos(\a)*cos(\p)*sin(\b) + sin(\a)*sin(\b)*sin(\p)}
+  % Row 2: [\ayx \ayy \ayz]
+  \pgfmathsetmacro\ayx{cos(\b)*cos(\p)*sin(\a)*cos(\t) - cos(\a)*cos(\b)*cos(\t)*sin(\p) - sin(\b)*sin(\t)}
+  \pgfmathsetmacro\ayy{cos(\a)*cos(\p)*cos(\t) + sin(\a)*cos(\t)*sin(\p)}
+  \pgfmathsetmacro\ayz{cos(\b)*sin(\t) - cos(\a)*sin(\b)*cos(\t)*sin(\p) + cos(\p)*sin(\a)*sin(\b)*cos(\t)}
+  % Row 3: [\azx \azy \azz]
+  \pgfmathsetmacro\azx{cos(\a)*cos(\b)*sin(\p)*sin(\t) - sin(\b)*cos(\t) - cos(\b)*cos(\p)*sin(\a)*sin(\t)}
+  \pgfmathsetmacro\azy{-cos(\a)*cos(\p)*sin(\t) - sin(\a)*sin(\p)*sin(\t)}
+  \pgfmathsetmacro\azz{cos(\b)*cos(\t) + cos(\a)*sin(\b)*sin(\p)*sin(\t) - cos(\p)*sin(\a)*sin(\b)*sin(\t)}
+}
+
+\newcommand{\tdplotCsDrawCircleOfSphere}[5][]{%
+  % Draws a circle of a sphere.
+  % 
+  % Input:
+  %   #1 - TikZ style
+  %        - use tdplotCsFront/.style={blub} to style the visible semicircle
+  %        - use tdplotCsBack/.style={blah} to style the invisible semicircle
+  %        - use tdplotCsFill/.style={foo} to style the fill of the circle
+  %        - use tdplotCsDrawAux to draw some auxiliary information
+  %   #2 - Radius of sphere
+  %   #3 - Azimutal angle of drawing plane 1)
+  %   #4 - Polar angle of drawing plane 2)
+  %   #5 - Elevation angle of circle above the drawing plane. Permissible 
+  %        values are -90 < #5 < 90. Use 0 for drawing a great circle.
+  %
+  % Ouput:
+  %   none
+  %
+  % Footnotes:
+  %   1) passed as alpha to \tdplotsetrotatedcoords{alpha}{beta}{gamma}
+  %   2) passed as beta to \tdplotsetrotatedcoords{alpha}{beta}{gamma}
+  \begin{scope}[#1]                                                             % Macro scope >>
+    % Do some computation                                                       #   -----------------------------------
+    \pgfmathsetmacro\R   {#2}                                                   %   Parse radius
+    \pgfmathsetmacro\aAlp{#3}                                                   %   Parse azimuthal angle (alpha)
+    \pgfmathsetmacro\aBet{#4}                                                   %   Parse polar angle (beta)
+    \pgfmathsetmacro\aEps{#5}                                                   %   Parse elevation angle (epsilon)
+    \pgfmathsetmacro\Re  {\R*cos(\aEps)}                                        %   Radius of circle
+    \pgfmathsetmacro\ze  {\R*sin(\aEps)}                                        %   z-coordinate of drawing plane
+    \pgfmathsetmacro\coX {\ze*cos(\aAlp)*sin(\aBet)}                            %   x-coordinate offset for ze
+    \pgfmathsetmacro\coY {\ze*sin(\aAlp)*sin(\aBet)}                            %   y-coordinate offset for ze
+    \pgfmathsetmacro\coZ {\ze*cos(\aBet)}                                       %   z-coordinate offset for ze
+    \coordinate (coffs) at (\coX,\coY,\coZ);                                    %   Offset as coordinate value
+    % Rotate and offset coordinate system                                       %   -----------------------------------
+    \tdplotsetrotatedcoords{\aAlp}{\aBet}{0}                                    %   Rotate coordinate system
+    \tdplotsetrotatedcoordsorigin{(coffs)}                                      %   Offset coordinate system
+    % Draw                                                                      %   -----------------------------------
+    \begin{scope}[tdplot_rotated_coords]                                        %   Drawing scope >>
+      \tdplotCsComputeTransformRotScreen                                        %     Compute full rotation matrix
+      \pgfmathsetmacro\tanEps{tan(\aEps)}                                       %     Tangent of elevation angle
+      \pgfmathsetmacro\bOneside{((\tanEps)^2)>=(((\azx)^2+(\azy)^2)/(\azz)^2)}  %     Circle entirely on one side?
+      \fill[tdplotCsFill] (0,0) circle (\Re);                                   %     Draw fill of circle
+      \ifthenelse{\bOneside=1}{                                                 %     Circle on one side of sphere >>
+        \pgfmathsetmacro\bFrontside{(\azx*\Re+\azz*\ze)>=0}                     %       Circle entirely on front side?
+         \ifthenelse{\bFrontside=1}                                             %       |
+           {\draw[tdplotCsFront] (0,0) circle (\Re);}                           %       Draw on front side
+           {\draw[tdplotCsBack]  (0,0) circle (\Re);}                           %       Draw on back side
+      }{                                                                        %     << Circle on both sides >>
+        \pgfmathsetmacro\u{\azy}                                                %       Substitution u=...
+        \pgfmathsetmacro\v{sqrt( (\azx)^2 + (\azy)^2 - (\azz)^2*(\tanEps)^2 )}  %       Substitution v=...
+        \pgfmathsetmacro\w{\azx - \azz*\tanEps}                                 %       Substitution w=...
+        \pgfmathsetmacro\aPhiBf{2*atan2(\u-\v,\w)}                              %       Back->front crossing angle
+        \pgfmathsetmacro\aPhiFb{2*atan2(\u+\v,\w)}                              %       Front->back crossing angle
+        \pgfmathsetmacro\bUnwrap{(\aPhiFb-\aPhiBf)>360}                         %       Unwrap front->back angle?
+        \ifthenelse{\bUnwrap=1}{\pgfmathsetmacro\aPhiBf{\aPhiBf+360}}{}         %       Unwrap front->back angle
+        \draw[tdplotCsBack]  (\aPhiFb:\Re) arc (\aPhiFb:{\aPhiBf+360}:\Re);     %       Draw back side arc
+        \draw[tdplotCsFront] (\aPhiBf:\Re) arc (\aPhiBf:\aPhiFb:\Re);           %       Draw back side arc
+      }                                                                         %     <<
+      % Auxliliary drawing (for debugging and illustration)                     %     - - - - - - - - - - - - - - - - -
+      \ifthenelse{\isin{tdplotCsDrawAux}{#1}}{                                  %     Auxiliary drawing activated >>
+        \draw[red!40,->] (-\Re,0,0) -- (\Re,0,0) node[anchor=north] {$x_d$};    %       x-axis of drawing corrd. system
+        \draw[red!40,->] (0,-\Re,0) -- (0,\Re,0) node[anchor=north] {$y_d$};    %       y-axis of drawing corrd. system
+        \draw[red!40,->] (0,0,0)    -- (0,0,\Re) node[anchor=north] {$z_d$};    %       z-axis of drawing corrd. system
+        \ifthenelse{\bOneside=0}{                                               %       Circ.on both sides of sphere >>
+          \node[red] at (\aPhiBf:\Re) {$\circ$};                                %         Indicate back-front crossing
+          \node[red] at (\aPhiFb:\Re) {$\times$};                               %         Indicate front-back crossing 
+        }{}                                                                     %       <<
+        \coordinate (coffs) at (-\coX,-\coY,-\coZ);                             %       HACK: Forcibly reset ... 
+        \tdplotsetrotatedcoordsorigin{(coffs)}                                  %       ... coordinate system
+        \begin{scope}[tdplot_rotated_coords]                                    %       Aux. display scope >>
+          \node[tdplot_screen_coords,red,anchor=north west] at (0.5*\R,-0.9*\R) %         Make a litte display ...
+            {\parbox{200pt}{\footnotesize                                       %         ... >>
+              $\theta=\tdplotmaintheta^\circ, \phi=\tdplotmainphi^\circ$\\      %           Main coord. sys. parameters
+              $\alpha=\aAlp^\circ, \beta=\aBet^\circ,                           %           Rot. coord. sys. parameters 
+               \epsilon\!=\!\aEps^\circ\!$\\                                    %           Drawing plane elev. angle
+              $a_{zx}=\azx, a_{zy}=\azy, a_{zz}=\azz$\\                         %           Elems. of full rot. matrix
+              $r_e\!=\!\Re, z_e\!=\!\ze$\\                                      %           Radius and z-elevation
+              $\texttt{\textbackslash bOneside}\!=\!\bOneside$,                 %           One-side circle flag
+              \ifthenelse{\bOneside=1}{                                         %           One-side circle >>
+                $\texttt{\textbackslash bFrontside}\!=\!\bFrontside$\\          %             Front-side flag
+              }{                                                                %           << Two-side circle >>
+                $\texttt{\textbackslash bUnwrap}\!=\!\bUnwrap$\\                %             Angle unwrap flag
+                $\circ\!: \!\texttt{\textbackslash aPhiBf}\!=\!\aPhiBf^\circ\!, %             Back-front crossing angle
+                 \times\!:\!\texttt{\textbackslash aPhiFb}\!=\!\aPhiFb^\circ$\\ %             Front-back crossing angle
+              }                                                                 %           <<
+            }};                                                                 %         <<
+        \end{scope}                                                             %       << (Aux. display scope) 
+      }{}                                                                       %     << (Auxiliary drawing activated)
+    \end{scope}                                                                 %   << (Drawing scope)
+  \end{scope}                                                                   % << (Macro scope)
+}
+
+\newcommand{\tdplotCsDrawGreatCircle}[4][]{%
+  % TODO: ...
+  \tdplotCsDrawCircleOfSphere[#1]{#2}{#3}{#4}{0}
+}
+
+\newcommand{\tdplotCsDrawLatCircle}[3][]{%
+  % TODO: ...
+  \tdplotCsDrawCircleOfSphere[#1]{#2}{0}{0}{#3}
+}
+
+\newcommand{\tdplotCsDrawLonCircle}[3][]{%
+  % TODO: ...
+  \tdplotCsDrawCircleOfSphere[#1]{#2}{{#3+90}}{90}{0}
+}
+
+%% == EOF =====================================================================

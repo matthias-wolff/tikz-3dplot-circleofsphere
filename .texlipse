@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Thu Jul 26 13:19:27 CEST 2018
+markTmpDer=true
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=
+mainTexFile=tikz-3dplot-circleofsphere.tex
+outputFile=tikz-3dplot-circleofsphere.pdf
+langSpell=en
+markDer=true
+srcDir=

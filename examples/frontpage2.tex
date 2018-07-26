@@ -1,0 +1,16 @@
+\documentclass{standalone}
+\usepackage{tikz-3dplot-circleofsphere}
+\begin{document}
+  \centering
+  \def\R{3}
+  \tdplotsetmaincoords{60}{125}
+  \begin{tikzpicture}[tdplot_main_coords]
+    \def\e{80};
+    \draw[tdplot_screen_coords,very thin] (0,0,0) circle (\R);
+    \foreach \a in {0,5,...,175} {
+      \tdplotCsDrawGreatCircle%
+        [very thin, tdplotCsBack/.style={very thin,blue!40}]%
+        {\R}{\a}{90*sin(\a)*sin(\e)}
+    }
+  \end{tikzpicture}
+\end{document}
