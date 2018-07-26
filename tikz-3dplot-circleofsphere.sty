@@ -115,8 +115,10 @@
         \pgfmathsetmacro\w{\azx - \azz*\tanEps}                                 %       Substitution w=...
         \pgfmathsetmacro\aPhiBf{2*atan2(\u-\v,\w)}                              %       Back->front crossing angle
         \pgfmathsetmacro\aPhiFb{2*atan2(\u+\v,\w)}                              %       Front->back crossing angle
-        \pgfmathsetmacro\bUnwrap{(\aPhiFb-\aPhiBf)>360}                         %       Unwrap front->back angle?
-        \ifthenelse{\bUnwrap=1}{\pgfmathsetmacro\aPhiBf{\aPhiBf+360}}{}         %       Unwrap front->back angle
+        \pgfmathsetmacro\bUnwrapA{(\aPhiFb-\aPhiBf)>360}                        %       Unwrap front->back angle #1?
+        \pgfmathsetmacro\bUnwrapB{\aPhiBf>\aPhiFb}                              %       Unwrap front->back angle #2?
+        \ifthenelse{\bUnwrapA=1}{\pgfmathsetmacro\aPhiBf{\aPhiBf+360}}{}        %       Unwrap front->back angle #1
+        \ifthenelse{\bUnwrapB=1}{\pgfmathsetmacro\aPhiBf{\aPhiBf-360}}{}        %       Unwrap front->back angle #2
         \draw[tdplotCsBack]  (\aPhiFb:\Re) arc (\aPhiFb:{\aPhiBf+360}:\Re);     %       Draw back side arc
         \draw[tdplotCsFront] (\aPhiBf:\Re) arc (\aPhiBf:\aPhiFb:\Re);           %       Draw back side arc
       }                                                                         %     <<
@@ -132,7 +134,7 @@
         \coordinate (coffs) at (-\coX,-\coY,-\coZ);                             %       HACK: Forcibly reset ... 
         \tdplotsetrotatedcoordsorigin{(coffs)}                                  %       ... coordinate system
         \begin{scope}[tdplot_rotated_coords]                                    %       Aux. display scope >>
-          \node[tdplot_screen_coords,red,anchor=north west] at (0.5*\R,-0.9*\R) %         Make a litte display ...
+          \node[tdplot_screen_coords,red,anchor=north west] at (0.7*\R,-0.9*\R) %         Make a litte display ...
             {\parbox{200pt}{\footnotesize                                       %         ... >>
               $\theta=\tdplotmaintheta^\circ, \phi=\tdplotmainphi^\circ$\\      %           Main coord. sys. parameters
               $\alpha=\aAlp^\circ, \beta=\aBet^\circ,                           %           Rot. coord. sys. parameters 
@@ -143,7 +145,8 @@
               \ifthenelse{\bOneside=1}{                                         %           One-side circle >>
                 $\texttt{\textbackslash bFrontside}\!=\!\bFrontside$\\          %             Front-side flag
               }{                                                                %           << Two-side circle >>
-                $\texttt{\textbackslash bUnwrap}\!=\!\bUnwrap$\\                %             Angle unwrap flag
+                $\texttt{\textbackslash bUnwrapA}\!=\!\bUnwrapA$,               %             Angle unwrap flag #1
+                $\texttt{\textbackslash bUnwrapB}\!=\!\bUnwrapB$\\              %             Angle unwrap flag #2
                 $\circ\!: \!\texttt{\textbackslash aPhiBf}\!=\!\aPhiBf^\circ\!, %             Back-front crossing angle
                  \times\!:\!\texttt{\textbackslash aPhiFb}\!=\!\aPhiFb^\circ$\\ %             Front-back crossing angle
               }                                                                 %           <<
