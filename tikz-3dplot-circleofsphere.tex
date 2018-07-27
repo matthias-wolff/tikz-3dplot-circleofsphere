@@ -6,10 +6,10 @@
 %%
 %% References:
 %% [1] R. Niepraschk: The showexpl package. 2016. Online, retrieved July 23, 2018. 
-%%     https://mirror.reismil.ch/CTAN/macros/latex/contrib/showexpl/doc/showexpl.pdf
-%%     https://mirror.reismil.ch/CTAN/macros/latex/contrib/showexpl/doc/showexpl-test.pdf
+%%     http://mirror.ctan.org/macros/latex/contrib/showexpl/doc/showexpl.pdf
+%%     http://mirror.ctan.org/CTAN/macros/latex/contrib/showexpl/doc/showexpl-test.pdf
 %% [2] C. Heinz, B. Moses, and J. Hoffmann. The Listings Package. 2015. Online, retrieved July 23, 2018.
-%%     http://mirror.hmc.edu/ctan/macros/latex/contrib/listings/listings.pdf
+%%     http://mirror.ctan.org/macros/latex/contrib/listings/listings.pdf
 %%
 \documentclass[a4paper]{article}
 %
@@ -30,8 +30,9 @@
 \usepackage{tikz-3dplot-circleofsphere}
 %
 % Names
-\newcommand{\tdplotCs}{\texttt{tikz-3dplot-circleofsphere}\xspace}
-\newcommand{\tdplot}{\texttt{tikz-3dplot}\xspace}
+\newcommand{\Ntikz}{TikZ\xspace}
+\newcommand{\NtdplotCs}{\texttt{tikz-3dplot-circleofsphere}\xspace}
+\newcommand{\Ntdplot}{\texttt{tikz-3dplot}\xspace}
 %
 % Custom commands
 \newcommand\e{\mathrm{e}}
@@ -154,8 +155,8 @@
 %
 \author{Matthias Wolff$^{\text{\sf\,[0000--0002--3895--7313]}}$}
 \affil{BTU Cottbus-Senftenberg}
-\title{The \tdplotCs Package:\\
-Drawing circles of a sphere with \tdplot}
+\title{The \NtdplotCs Package:\\
+Drawing circles of a sphere with \Ntdplot}
 \maketitle
 \begin{center}
   \begin{minipage}{0.9\linewidth}
@@ -164,13 +165,17 @@ Drawing circles of a sphere with \tdplot}
     \bigskip
     A \emph{circle of a sphere} is a circle drawn on a spherical surface like,
     for instance, circles of latitude or longitude. Circles in arbitrary 3D
-    positions can be drawn with TikZ \cite{Tan15} very easily using a
-    transformed coordinate system provided by the \tdplot package \cite{Hei12}
-    (that is because TikZ can only draw circles on the $xy$-plane). However,
+    positions can be drawn with \Ntikz \cite{Tan15} very easily using a
+    transformed coordinate system provided by the \Ntdplot package \cite{Hei12}
+    (that is because \Ntikz can only draw circles on the $xy$-plane). However,
     automatically distinguishing the parts of the circle lying on the front and
     back sides of the sphere, e.g. by drawing a solid arc on the front side and
-    a dashed one on the back side, is a somewhat tricky feat. The \tdplotCs
+    a dashed one on the back side, is a somewhat tricky feat. The \NtdplotCs
     package will perform that feat for you.
+
+    \bigskip{\color{red}
+    \textbf{Note:} Package and documentation are under construction!
+    }
   \end{minipage}
   \vfill
   \begin{tabular}{@{\extracolsep{-10pt}}cc}
@@ -192,134 +197,203 @@ There you go!
 
 Want some more convenience or interested in what we did? Read on\ldots
 
-\section{The \tdplotCs Package}
+\section{The \NtdplotCs Package}
 \subsection{Installation}
-Just copy the \texttt{\tdplotCs.sty} file into your project folder and include the
-package with \texttt{\textbackslash usepackage\{\tdplotCs\!\!\!\}}. That's all.
+Download \texttt{\NtdplotCs.sty} from \cite{Wol18} file into your project folder
+and include the package with \texttt{\textbackslash
+usepackage\{\NtdplotCs\!\!\!\}}. That's all.
 
-\subsection{Drawing Commands}
 \workOn
-%
-\docCmd{tdplotgcDrawGreatCircle[style]\{alpha\}\{beta\}\{R\}}{%
-  Draws a great circle on a sphere. The circle is drawn on the $xy$-plane of a
-  coordinate system rotated by \texttt{\textbackslash tdplotsetrotatedcoords}.
-  See Example \ref{exm:1} in Section \ref{ssec:examples} for an illustration.
-}
-\begin{docParams}{Parameters}
- %
-  \docPar{style}{
-    TikZ style (optional). Use
-    \begin{itemize}
-      \item 
-        \texttt{tdplotGcFront/.style=\{...\}} to style the front side semicircle,
-      \item 
-        \texttt{tdplotGcBack/.style=\{...\}} to style the back side semicircle, 
-      \item 
-        \texttt{tdplotGcFill/.style=\{...\}} to style the fill of the circle.
-    \end{itemize}
-    The default fill style is \texttt{opcacity=0}. To make the interior of the
-    circle visible, you must specifiy an opacity value $>0$, e.g.
-    \texttt{tdplotGcFill/.style=\{opacity=0.1\}}.
-  }
-%
-  \docPar{alpha}{
-    $\alpha$ angle of rotated coordinate system, to be passed to 
-    \texttt{\textbackslash tdplotsetrotatedcoords}
-  }
-%
-  \docPar{beta}{
-    $\beta$ angle of rotated coordinate system, to be passed to 
-    \texttt{\textbackslash tdplotsetrotatedcoords}
-  }
-%
-  \docPar{R}{Radius of sphere}
-%
-\end{docParams}
-\begin{docParams}{Output}
-  \docPar{\textrm{none}}{}
-\end{docParams}
-
-\docRemarks{%
-  Use \texttt{\textbackslash tdplotgcDrawGreatCircleExtras[style]%
-  \{alpha\}\{beta\}\{R\}} to draw some extra information for the great circle. 
-  See Example \ref{exm:1} in Section \ref{ssec:examples} for an illustration. 
+\subsection{Drawing Commands}
+\docCmd{tdplotCsDrawCircle[style]\{r\}\{alpha\}\{beta\}\{epsilon\}}{%
+  \TODO{\ldots}
 }
 
-\docCmd%
-  {tdplotgcDrawPoint[style]\{alpha\}\{beta\}\{R\}}{%
-    Draws a point on a sphere. The point is drawn at position $(0,0,\texttt{R})$
-    of a coordinate system rotated by \texttt{\textbackslash
-    tdplotsetrotatedcoords}. See Example \ref{exm:2} in Section
-    \ref{ssec:examples} for an illustration.
-  }
-\begin{docParams}{Parameters}
- %
-  \docPar{style}{
-    TikZ style (optional). Use
-    \begin{itemize}
-      \item 
-        \texttt{tdplotPtFront/.style=\{...\}} to style a front side point and
-      \item 
-        \texttt{tdplotPtBack/.style=\{...\}} to style a back side point. 
-    \end{itemize}
-  }
-%
-  \docPar{alpha}{
-    $\alpha$ angle of rotated coordinate system, to be passed to 
-    \texttt{\textbackslash tdplotsetrotatedcoords}
-  }
-%
-  \docPar{beta}{
-    $\beta$ angle of rotated coordinate system, to be passed to 
-    \texttt{\textbackslash tdplotsetrotatedcoords}
-  }
-%
-  \docPar{R}{Radius of sphere}
-%
-\end{docParams}
-\begin{docParams}{Output}
-  \docPar{\textrm{none}}{}
-\end{docParams}
+\docCmd{tdplotCsDrawPoint[style]\{r\}\{alpha\}\{beta\}\{epsilon\}}{%
+  \TODO{\ldots}
+}
 
-\docRemarks{%
-  Use \texttt{\textbackslash tdplotgcDrawPointExtras[style]%
-  \{alpha\}\{beta\}\{R\}} to draw some extra information for the great circle.  
+% %
+% \docCmd{tdplotgcDrawGreatCircle[style]\{alpha\}\{beta\}\{R\}}{%
+%   Draws a great circle on a sphere. The circle is drawn on the $xy$-plane of a
+%   coordinate system rotated by \texttt{\textbackslash tdplotsetrotatedcoords}.
+%   See Example \ref{exm:1} in Section \ref{ssec:examples} for an illustration.
+% }
+% \begin{docParams}{Parameters}
+%  %
+%   \docPar{style}{
+%     \Ntikz style (optional). Use
+%     \begin{itemize}
+%       \item 
+%         \texttt{tdplotGcFront/.style=\{...\}} to style the front side semicircle,
+%       \item 
+%         \texttt{tdplotGcBack/.style=\{...\}} to style the back side semicircle, 
+%       \item 
+%         \texttt{tdplotGcFill/.style=\{...\}} to style the fill of the circle.
+%     \end{itemize}
+%     The default fill style is \texttt{opcacity=0}. To make the interior of the
+%     circle visible, you must specifiy an opacity value $>0$, e.g.
+%     \texttt{tdplotGcFill/.style=\{opacity=0.1\}}.
+%   }
+% %
+%   \docPar{alpha}{
+%     $\alpha$ angle of rotated coordinate system, to be passed to 
+%     \texttt{\textbackslash tdplotsetrotatedcoords}
+%   }
+% %
+%   \docPar{beta}{
+%     $\beta$ angle of rotated coordinate system, to be passed to 
+%     \texttt{\textbackslash tdplotsetrotatedcoords}
+%   }
+% %
+%   \docPar{R}{Radius of sphere}
+% %
+% \end{docParams}
+% \begin{docParams}{Output}
+%   \docPar{\textrm{none}}{}
+% \end{docParams}
+% 
+% \docRemarks{%
+%   Use \texttt{\textbackslash tdplotgcDrawGreatCircleExtras[style]%
+%   \{alpha\}\{beta\}\{R\}} to draw some extra information for the great circle. 
+%   See Example \ref{exm:1} in Section \ref{ssec:examples} for an illustration. 
+% }
+% 
+% \docCmd%
+%   {tdplotgcDrawPoint[style]\{alpha\}\{beta\}\{R\}}{%
+%     Draws a point on a sphere. The point is drawn at position $(0,0,\texttt{R})$
+%     of a coordinate system rotated by \texttt{\textbackslash
+%     tdplotsetrotatedcoords}. See Example \ref{exm:2} in Section
+%     \ref{ssec:examples} for an illustration.
+%   }
+% \begin{docParams}{Parameters}
+%  %
+%   \docPar{style}{
+%     \Ntikz style (optional). Use
+%     \begin{itemize}
+%       \item 
+%         \texttt{tdplotPtFront/.style=\{...\}} to style a front side point and
+%       \item 
+%         \texttt{tdplotPtBack/.style=\{...\}} to style a back side point. 
+%     \end{itemize}
+%   }
+% %
+%   \docPar{alpha}{
+%     $\alpha$ angle of rotated coordinate system, to be passed to 
+%     \texttt{\textbackslash tdplotsetrotatedcoords}
+%   }
+% %
+%   \docPar{beta}{
+%     $\beta$ angle of rotated coordinate system, to be passed to 
+%     \texttt{\textbackslash tdplotsetrotatedcoords}
+%   }
+% %
+%   \docPar{R}{Radius of sphere}
+% %
+% \end{docParams}
+% \begin{docParams}{Output}
+%   \docPar{\textrm{none}}{}
+% \end{docParams}
+% 
+% \docRemarks{%
+%   Use \texttt{\textbackslash tdplotgcDrawPointExtras[style]%
+%   \{alpha\}\{beta\}\{R\}} to draw some extra information for the great circle.  
+% }
+% 
+% \subsection{Auxiliary Commands}
+% 
+% \docCmd%
+%   {tdtdplotgcFrontsidePoint}{%
+%     Invoked by \texttt{\textbackslash tdplotgcDrawPoint} to draw a point on the
+%     front side of a sphere. Redefine to customize.
+%   }
+% \begin{docParams}{Parameters}
+%   \docPar{\textrm{none}}{}
+% \end{docParams}
+% \begin{docParams}{Output}
+%   \docPar{\textrm{none}}{}
+% \end{docParams}
+% 
+% \docCmd%
+%   {tdtdplotgcBacksidePoint}{%
+%     Invoked by \texttt{\textbackslash tdplotgcDrawPoint} to draw a point on the
+%     back side of a sphere. Redefine to customize.
+%   }
+% \begin{docParams}{Parameters}
+%   \docPar{\textrm{none}}{}
+% \end{docParams}
+% \begin{docParams}{Output}
+%   \docPar{\textrm{none}}{}
+% \end{docParams}
+% 
+% \docCmd%
+%   {tdplotgcComputeTransformRotScreen}{%
+%     Computes the elements of the full rotation matrix
+%     \[
+%        A = \begin{pmatrix}
+%              a_{xx} & a_{xy} & a_{xz} \\ 
+%              a_{yx} & a_{yy} & a_{yz} \\ 
+%              a_{zx} & a_{zy} & a_{zz} 
+%            \end{pmatrix}\!\!.
+%     \]
+%     See Section \ref{ssec:maths} for details.
+%   }
+% \begin{docParams}{Parameters}
+%   \docPar{\textrm{none}}{}
+% \end{docParams}
+% 
+% \begin{docParams}{Output}
+%   \docPar{\textbackslash axx}{Element $a_{xx}$ of full rotation matrix}
+%   \docPar{\textbackslash axy}{Element $a_{xy}$ of full rotation matrix}
+%   \docPar{\textrm{\ldots}}{}
+%   \docPar{\textbackslash azz}{Element $a_{zz}$ of full rotation matrix}
+% \end{docParams}
+% 
+% \docRemarks{%
+%   The command uses some internal variables of \Ntdplot, namely
+%   \texttt{\textbackslash tdplotalpha}, \texttt{\textbackslash tdplotbeta}, 
+%   \texttt{\textbackslash tdplotmainphi}, and \texttt{\textbackslash 
+%   tdplotmaintheta}.
+% }
+
+\subsection{Geographic Drawing Commands}
+\docCmd{tdplotCsDrawCircleLL[style]r\}\{lat\}\{lon\}\{elev\}}{%
+  \TODO{\ldots}
+}
+
+\docCmd{tdplotCsDrawLatitudeCircleLL[style]r\}\{lat\}}{%
+  \TODO{\ldots}
+}
+
+\docCmd{tdplotCsDrawLongitudeCircleLL[style]r\}\{lon\}}{%
+  \TODO{\ldots}
+}
+
+\docCmd{tdplotCsDrawPointLL[style]\{r\}\{lat\}\{lon\}}{%
+  \TODO{\ldots}
 }
 
 \subsection{Auxiliary Commands}
-
 \docCmd%
-  {tdtdplotgcFrontsidePoint}{%
-    Invoked by \texttt{\textbackslash tdplotgcDrawPoint} to draw a point on the
+  {tdtdplotCsFrontsidePoint}{%
+    Invoked by \texttt{\textbackslash tdplotCsDrawPoint} to draw a point on the
     front side of a sphere. Redefine to customize.
   }
-\begin{docParams}{Parameters}
-  \docPar{\textrm{none}}{}
-\end{docParams}
-\begin{docParams}{Output}
-  \docPar{\textrm{none}}{}
-\end{docParams}
 
 \docCmd%
-  {tdtdplotgcBacksidePoint}{%
-    Invoked by \texttt{\textbackslash tdplotgcDrawPoint} to draw a point on the
+  {tdtdplotCsBacksidePoint}{%
+    Invoked by \texttt{\textbackslash tdplotCsDrawPoint} to draw a point on the
     back side of a sphere. Redefine to customize.
   }
-\begin{docParams}{Parameters}
-  \docPar{\textrm{none}}{}
-\end{docParams}
-\begin{docParams}{Output}
-  \docPar{\textrm{none}}{}
-\end{docParams}
 
 \docCmd%
-  {tdplotgcComputeTransformRotScreen}{%
+  {tdplotCsComputeTransformRotScreen}{%
     Computes the elements of the full rotation matrix
     \[
        A = \begin{pmatrix}
-             a_{xx} & a_{xy} & a_{xz} \\ 
-             a_{yx} & a_{yy} & a_{yz} \\ 
-             a_{zx} & a_{zy} & a_{zz} 
+             a_{xx} & a_{xy} & a_{xz} \\
+             a_{yx} & a_{yy} & a_{yz} \\
+             a_{zx} & a_{zy} & a_{zz}
            \end{pmatrix}\!\!.
     \]
     See Section \ref{ssec:maths} for details.
@@ -336,16 +410,18 @@ package with \texttt{\textbackslash usepackage\{\tdplotCs\!\!\!\}}. That's all.
 \end{docParams}
 
 \docRemarks{%
-  The command uses some internal variables of \tdplot, namely
-  \texttt{\textbackslash tdplotalpha}, \texttt{\textbackslash tdplotbeta}, 
-  \texttt{\textbackslash tdplotmainphi}, and \texttt{\textbackslash 
+  The command uses some internal variables of \Ntdplot, namely
+  \texttt{\textbackslash tdplotalpha}, \texttt{\textbackslash tdplotbeta},
+  \texttt{\textbackslash tdplotmainphi}, and \texttt{\textbackslash
   tdplotmaintheta}.
 }
+
 \workOff
 
 \subsection{Examples}\label{ssec:examples}
+\workOn
 Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the 
-\tdplotCs package.
+\NtdplotCs package.
 % \afterpage{
 %   \LTXinputExample[%
 %     style=lstsLongLines,
@@ -359,18 +435,37 @@ Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the
 %   ]{example2}
 % }
 
+\noindent\TODO{Fix examples!}
+\workOff
+
 \section{Implementation Details}
 \subsection{The Maths}\label{ssec:maths}
-\subsubsection{Front and Back Side Arcs of Great Circles}
-Denote by $P=(x\,y\,z)^\top$ a point in a 3D coordinate system. \tdplot~ 
-\cite{Hei12} transforms that point in to screen coordinates $P'=(x'\,
-y'\,z')^\top$ by
+
+\subsubsection{Circles on a Sphere}
+\noindent\workOn
+\TODO{Briefly explain!}\\
+\TODO{Make a picture!}
+\workOff
+
+\subsubsection{Coordinate Transforms with \Ntdplot}
+For drawing circles on a sphere, we use the \texttt{circle} and \texttt{arc}
+path construction operations of \Ntikz. As \Ntikz will only draw circles and
+arcs on the $xy$-plane, we need to rotate and possibly offset the coordinate
+system for drawing circles of spheres. This functionality is provided by the
+\Ntdplot \cite{Hei12} package.
+
+First, \Ntdplot provides a \emph{main coordinate system} which is basicly
+defining the view point a 3D coordinate system. Denote by $P=(x\,y\,z)^\top$ a
+point in the 3D coordinate system. \Ntdplot transforms that point in to screen
+coordinates $P'=(x'\, y'\,z')^\top$ by
 \begin{align}
   \begin{pmatrix} x' \\ y' \\ z' \end{pmatrix}
   &= R^d(\phi,\theta) \begin{pmatrix} x \\ y \\ z \end{pmatrix}
 \end{align}
-with the rotation matrix\footnote{Note that equation (2.1) in \cite{Hei12} is
-wrong! Corrections are marked in red.}
+with the rotation matrix\footnote{Equation (2.1) in \cite{Hei12} seems to be
+incorrect. I used a version with changes marked in red: Since
+$\big(R^{z'}(\phi)\, R^x(\theta)\big)^\top = R^x(\theta)^\top\,
+R^{z'}(\phi)^\top$, rotations are performed on opposite order and direction.}
 \begin{align}
   R^d(\phi,\theta)
   &= \CORR{\big({\color{black}R^{z'}(\phi)\,R^x(\theta)}\big)^\top}
@@ -396,10 +491,11 @@ wrong! Corrections are marked in red.}
         \sin\theta \sin\phi & -\sin\theta \cos\phi & \cos\theta
      \end{pmatrix}\!\!.
 \end{align}
-As TikZ can draw arcs and circles on the $xy$ plane only, we need to rotate the
-coordinate frame again for drawing great circles in arbitrary position.
-To this end, we use \tdplot's rotated coordinate system\footnote{Note that
-equation (2.4) in \cite{Hei12} is wrong! Corrections are marked in red.}
+Second, for drawing circles and arcs outside the $xy$-plane, we need to rotate
+the coordinate system further. To this end, we use \Ntdplot's \emph{rotated
+coordinate system}\footnote{Equation (2.4) in \cite{Hei12} seems to be
+incorrect. I used a version with changes marked in red: Rotations are performed
+in opposite order.}
 \begin{align}
   \begin{pmatrix} x' \\ y' \\ z' \end{pmatrix}
   &= \CORR{R^d(\phi,\theta)\,D(\alpha,\beta,\gamma)}
@@ -474,97 +570,32 @@ $\gamma=0$. Thus, the full rotation matrix for drawing a great circle is
      \end{array}\right)
 \end{align}
 
-\workOn
-Independently of $A$, the boundary of the sphere with radius $r$ is a circle
-with the parametric representation
-\begin{equation}
-  \begin{pmatrix} x' \\ y' \\ z' \end{pmatrix}
-  = \begin{pmatrix} r\cos\varphi \\ r\sin\varphi \\ 0 \end{pmatrix}
-\end{equation}
-in screen coordindates.
+With the coordinate transforms described so far, we can only draw circles and
+arcs whose center is the origin of the main coordinate systems. For drawing
+other circles on a sphere, we additionally need to offset the origin of the
+rotated coordinate system. This is provided by the \texttt{\textbackslash
+tdplotsetrotatedcoordsorigin} command of \Ntdplot.
+
+\noindent\workOn
+\TODO{Describe how!}
 \workOff
 
-The screen coordinates of a rotated great circle with the parametric
-representation
+\subsubsection{Drawing Circles of a Sphere}
+The parametric representation of a circle at a plane parallel to the $xy$-plane
+is
 \begin{equation}
+  \label{eqn:csparametric}
   \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
-  = \begin{pmatrix} r\cos\varphi \\ r\sin\varphi \\ 0 \end{pmatrix}
+  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ z_e \end{pmatrix}\!,
 \end{equation}
-are
+where $-180^\circ<\varphi\leq 180^\circ$ the angle parameter,
 \begin{align}
-  \begin{pmatrix} x'(\varphi) \\ y'(\varphi) \\ z'(\varphi) \end{pmatrix}
-  &= A \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
-   = A \begin{pmatrix} r\cos\varphi \\ r\sin\varphi \\ 0 \end{pmatrix}
-   = \begin{pmatrix}
-       a_{xx} & a_{xy} & a_{xz} \\
-       a_{yx} & a_{yy} & a_{yz} \\ 
-       a_{zx} & a_{zy} & a_{zz} 
-     \end{pmatrix}
-     \begin{pmatrix} r\cos\varphi \\ r\sin\varphi \\ 0 \end{pmatrix}
-\\
-  \notag
-  &= \begin{pmatrix}
-       a_{xx}\cdot r\cos\varphi + a_{xy}\cdot r\sin\varphi \\
-       a_{yx}\cdot r\cos\varphi + a_{yy}\cdot r\sin\varphi \\
-       a_{zx}\cdot r\cos\varphi + a_{zy}\cdot r\sin\varphi
-     \end{pmatrix}
+  r_e &= \cos\epsilon
+\intertext{the radius,}
+  z_e &= \sin\epsilon
 \end{align}
-The $z'(\varphi)$ coordinates are not plotted. However, they are useful for
-determining which semicircle of the rotated great circle is
-\begin{align}
-  \text{visible}   &\quad z'(\varphi)\geq 0 \quad\text{and which part is}\\
-  \text{invisible} &\quad z'(\varphi)< 0.   \notag
-\end{align}
-We denote by $\varphi_0$ the two boundary angles between the visible and invisible
-semicircles. Assuming $r\neq 0$ and $\cos\varphi_0\neq 0$ we compute them by
-\begin{align}
-  0
-  &\stackrel{!}{=} z'(\varphi_0)
-  = a_{zx}\cdot r \cos\varphi_0 + a_{zy}\cdot r \sin\varphi_0
-\\
-  \notag
-  &= a_{zx} + a_{zy}\tan\varphi_0
-\intertext{from which we derive}
-  \tan\varphi_0
-  &= -\frac{a_{zx}}{a_{zy}},
-\intertext{where $a_{zx}$ and $a_{zy}$ are taken from Eqn. (\ref{eqn:amatrix}):}
-  a_{zx}
-  &= \cos\alpha\cos\phi\sin\beta + \sin\alpha\sin\beta\sin\phi
-\\
-  a_{zy}
-  &= \cos\beta\sin\theta - \cos\alpha\sin\beta\cos\theta\sin\phi + \cos\phi\sin\alpha\sin\beta\cos\theta.
-\intertext{The angle $\varphi_0$ is then}
-  \varphi_0
-  &= \atann(-a_{zx},a_{zy}).
-\end{align} 
-Here we used the $\atann(x,y)$ function which is defined as
-\begin{equation}\label{eqn:atann}
-  \atann(x,y)
-  = \left\{\begin{array}{ll}
-        \arctan\big(\frac{x}{y}\big)     &\quad y>0      \\[5pt]
-        \arctan\big(\frac{x}{y}\big)+\pi &\quad y<0, x>0 \\[5pt]
-        \pi                              &\quad y<0, x=0 \\[5pt]
-        \arctan\big(\frac{x}{y}\big)-\pi &\quad y<0, x<0 \\[5pt]
-        \frac{\pi}{2}                    &\quad y=0, x>0 \\[5pt]
-        -\frac{\pi}{2}                   &\quad y=0, x<0
-     \end{array}\right.
-\end{equation}
-
-\subsubsection{Front and Back Side Arcs of General Sphere Circles}
-A great circle in the rotated $xy$ drawing plane is, in parametric form, 
-\begin{equation}
-  \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
-  = \begin{pmatrix} r\cos\varphi \\ r\sin\varphi \\ 0 \end{pmatrix}\!\!.
-\end{equation}
-For an arbitrary circle at an elevation $\epsilon$ from the rotated drawing we
-would have get a radius $r_e = r\cos\epsilon$ and a $z$-coordinate $z_e =
-r\sin\epsilon$. The parametric form is then
-\begin{equation}
-  \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
-  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ z_e \end{pmatrix}
-  = \begin{pmatrix} r\cos\epsilon\cos\varphi \\ r\cos\epsilon\sin\varphi \\ r\sin\epsilon \end{pmatrix}\!\!.
-\end{equation}
-Fig. \ref{fig:elevCirc} shows an illustration. 
+the height above the $xy$-plane, and $\epsilon$ the elevation angle. Fig.
+\ref{fig:elevCirc} shows an illustration.
 %
 \begin{figure}[htp]
 \begin{center}
@@ -586,7 +617,15 @@ Fig. \ref{fig:elevCirc} shows an illustration.
 \end{center}
 \end{figure}
 
-\noindent The respective screen coordinates are
+\noindent
+Note that we actually \emph{draw} this circle in the rotated \emph{and offset}
+coordinate system where it takes the form
+\begin{equation}
+  \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
+  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ {\CORR{0}} \end{pmatrix}\!.
+\end{equation}
+However, we will stick to Eqn.\,(\ref{eqn:csparametric}) for simplicity. The
+screen coordinates for Eqn.\,(\ref{eqn:csparametric}) are
 \begin{align}
   \begin{pmatrix} x'(\varphi) \\ y'(\varphi) \\ z'(\varphi) \end{pmatrix}
   &= A \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
@@ -608,15 +647,23 @@ Fig. \ref{fig:elevCirc} shows an illustration.
        a_{zx}\cdot r\cos\epsilon\cos\varphi + a_{zy}\cdot r\cos\epsilon\sin\varphi + a_{zz}\cdot r\sin\epsilon
      \end{pmatrix}\!\!.
 \end{align}
-Again, we determine the angle $\varphi_0$ where $z'(\varphi_0)=0$ by solving
+The $z'(\varphi)$ coordinates are not plotted. However, they are useful for
+determining which parts of the circle are
 \begin{align}
+  \text{on the front side} &\quad z'(\varphi)\geq 0 \quad\text{and}\\
+  \text{on the back side}  &\quad z'(\varphi)< 0\notag
+\end{align}
+of the sphere. We denote by $\varphi_0$ the crossing angles between the front
+and back sides. In order to determine them we solve
+\begin{align}\label{eqn:phi0}
   0
   \stackrel{!}{=} z'(\varphi_0)
   &= a_{zx}\cdot r\cos\epsilon\cos\varphi_0 
    + a_{zy}\cdot r\cos\epsilon\sin\varphi_0 
    + a_{zz}\cdot r\sin\epsilon.
 \end{align}
-I frankly admit that I was too lazy to puzzle this out myself ;-\!) Matlab says
+I must admit that I was too lazy to puzzle this out myself\ldots ;-\!) Matlab
+says:
 \begin{align}
   \tan\left(\frac{\varphi_0}{2}\right)
   &=\frac{a_{zy}\cos\epsilon \pm \sqrt{a_{zx}^2\cos^2\epsilon + a_{zy}^2\cos^2\epsilon - a_{zz}^2\sin^2\epsilon}}
@@ -627,6 +674,7 @@ I frankly admit that I was too lazy to puzzle this out myself ;-\!) Matlab says
 \end{align}
 where
 \begin{equation}
+  \label{eqn:phi0cond}
   a_{zz}^2\sin^2\epsilon \ge (a_{zx}^2 + a_{zy}^2)\cos^2\epsilon
   \quad\leadsto\quad
   \tan^2\epsilon \ge \frac{a_{zx}^2 + a_{zy}^2}{a_{zz}^2}
@@ -645,6 +693,27 @@ must hold. With the substitutions
     2\atann(u-v,w)  
   \end{cases}
 \end{align}
+Here we used the $\atann(x,y)$ function which is defined as
+\begin{equation}\label{eqn:atann}
+  \atann(x,y)
+  = \left\{\begin{array}{ll}
+      \arctan\big(\frac{x}{y}\big)     &\quad y>0          \\[5pt]
+      \arctan\big(\frac{x}{y}\big)+\pi &\quad y<0, x\geq 0 \\[5pt]
+      \arctan\big(\frac{x}{y}\big)-\pi &\quad y<0, x<0     \\[5pt]
+      \frac{\pi}{2}                    &\quad y=0, x>0     \\[5pt]
+      -\frac{\pi}{2}                   &\quad y=0, x<0     \\[5pt]
+      0                                &\quad y=0, x=0
+    \end{array}\right.
+\end{equation}
+Iff condition\,(\ref{eqn:phi0cond}) holds, Eqn.\,(\ref{eqn:phi0}) has
+exactly two solutions,\footnote{which coincide iff the left and right sides of
+condition \,(\ref{eqn:phi0cond}) are equal}
+\begin{align}
+  \varphi_{0,\text{bf}} &: \text{angle of back to front side crossing and}\notag\\
+  \varphi_{0,\text{fb}} &: \text{angle of front to back side crossing,}\notag
+\end{align}
+Otherwise it has no solutions, which means that the circle lies entirely either
+on the front side or on the back side of the sphere.
 
 \subsection{The Package Source Code}
 \lstinputlisting[style=lstsLatex,linewidth=483pt]{tikz-3dplot-circleofsphere.sty}
