@@ -13,7 +13,7 @@ Examples: [`example_frontpage1.tex`](https://rawgit.com/matthias-wolff/tikz-3dpl
 <nobr><img width="400" alt="Example 1" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage1.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="400" alt="Example 1" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage2.png"></nobr>
 
 #### Package Documentation
-The package documentation including examples can be found [here](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/tikz-3dplot-circleofsphere.pdf).
+The package documentation including more examples can be found [here](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/tikz-3dplot-circleofsphere.pdf).
 
 #### Installation
 Download the [`tikz-3dplot-circleofsphere.sty`](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/tikz-3dplot-circleofsphere.sty) file into your project folder and include the package with 
