@@ -9,12 +9,12 @@ the front side and a dashed one on the back side, is a somewhat tricky feat. The
 will perform that feat for you.
 
 #### Package Documentation
-The package documentation including examples can be found here.
+The package documentation including examples can be found [here](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/tikz-3dplot-circleofsphere.pdf).
 
 #### Installation
-Download the `tikz-3dplot-circleofsphere.sty` file into your project folder and include the package with 
+[Download](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/tikz-3dplot-circleofsphere.sty) the `tikz-3dplot-circleofsphere.sty` file into your project folder and include the package with 
 `\usepackage{tikz-3dplot-circleofsphere}`.
 
 #### References
-1. Jeff Hein. The `tikz-3dplot package`. Online: http://mirror.ctan.org/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf. Retrieved July 27, 2018, 2012.
+1. Jeff Hein. The tikz-3dplot package. Online: http://mirror.ctan.org/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf. Retrieved July 27, 2018, 2012.
 2. Till Tantau. Tikz & pgf - manual for version 3.0.1a. Online: http://mirror.ctan.org/graphics/pgf/base/doc/pgfmanual.pdf. Retrieved July 27, 2018, 2015.
