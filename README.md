@@ -16,5 +16,5 @@ The package documentation including examples can be found [here](https://rawgit.
 `\usepackage{tikz-3dplot-circleofsphere}`.
 
 #### References
-1. Jeff Hein. The tikz-3dplot package. Online: http://mirror.ctan.org/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf. Retrieved July 27, 2018, 2012.
-2. Till Tantau. Tikz & pgf - manual for version 3.0.1a. Online: http://mirror.ctan.org/graphics/pgf/base/doc/pgfmanual.pdf. Retrieved July 27, 2018, 2015.
+1. Jeff Hein. The tikz-3dplot package. http://mirror.ctan.org/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf, 2012 Retrieved July 27, 2018.
+2. Till Tantau. Tikz & pgf - manual for version 3.0.1a. http://mirror.ctan.org/graphics/pgf/base/doc/pgfmanual.pdf, 2015. Retrieved July 27, 2018.
