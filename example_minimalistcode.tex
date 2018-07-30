@@ -10,7 +10,7 @@
   \pgfmathsetmacro\azx{cos(\a)*cos(\b)*sin(\p)*sin(\t) - sin(\b)*cos(\t) - cos(\b)*cos(\p)*sin(\a)*sin(\t)}
   \pgfmathsetmacro\azy{-cos(\a)*cos(\p)*sin(\t) - sin(\a)*sin(\p)*sin(\t)}
   \pgfmathsetmacro\azz{cos(\b)*cos(\t) + cos(\a)*sin(\b)*sin(\p)*sin(\t) - cos(\p)*sin(\a)*sin(\b)*sin(\t)}
-  \pgfmathsetmacro\Re {#1*cos(#4)}                                              % Radius of circle
+  \pgfmathsetmacro\re {#1*cos(#4)}                                              % Radius of circle
   \pgfmathsetmacro\ze {#1*sin(#4)}                                              % z-coordinate of drawing plane
   \pgfmathsetmacro\coX{\ze*cos(#2)*sin(#3)}                                     % x-coordinate offset for ze
   \pgfmathsetmacro\coY{\ze*sin(#2)*sin(#3)}                                     % y-coordinate offset for ze
@@ -21,22 +21,22 @@
     \pgfmathsetmacro\tanEps{tan(#4)}                                            %   Tangent of elevation angle
     \pgfmathsetmacro\bOneside{((\tanEps)^2)>=(((\azx)^2+(\azy)^2)/(\azz)^2)}    %   Circle entirely on one side?
     \ifthenelse{\bOneside=1}{%                                                  %   Circle on one side of sphere >>
-      \pgfmathsetmacro\bFrontside{(\azx*\Re+\azz*\ze)>=0}                       %     Circle entirely on front side?
+      \pgfmathsetmacro\bFrontside{(\azx*\re+\azz*\ze)>=0}                       %     Circle entirely on front side?
        \ifthenelse{\bFrontside=1}                                               %     |
-         {\draw (0,0) circle (\Re);}                                            %     Draw on front side
-         {\draw[dashed] (0,0) circle (\Re);}                                    %     Draw on back side
+         {\draw (0,0) circle (\re);}                                            %     Draw on front side
+         {\draw[dashed] (0,0) circle (\re);}                                    %     Draw on back side
     }{%                                                                         %   << Circle on both sides >>
       \pgfmathsetmacro\u{\azy}                                                  %     Substitution u=...
       \pgfmathsetmacro\v{sqrt( (\azx)^2 + (\azy)^2 - (\azz)^2*(\tanEps)^2 )}    %     Substitution v=...
       \pgfmathsetmacro\w{\azx - \azz*\tanEps}                                   %     Substitution w=...
-      \pgfmathsetmacro\aPhiBf{2*atan2(\u-\v,\w)}                                %     Back->front crossing angle
-      \pgfmathsetmacro\aPhiFb{2*atan2(\u+\v,\w)}                                %     Front->back crossing angle
-      \pgfmathsetmacro\bUnwrapA{(\aPhiFb-\aPhiBf)>360}                          %     Unwrap front->back angle #1?
-      \pgfmathsetmacro\bUnwrapB{\aPhiBf>\aPhiFb}                                %     Unwrap front->back angle #2?
-      \ifthenelse{\bUnwrapA=1}{\pgfmathsetmacro\aPhiBf{\aPhiBf+360}}{}          %     Unwrap front->back angle #1
-      \ifthenelse{\bUnwrapB=1}{\pgfmathsetmacro\aPhiBf{\aPhiBf-360}}{}          %     Unwrap front->back angle #2
-      \draw[dashed] (\aPhiFb:\Re) arc (\aPhiFb:{\aPhiBf+360}:\Re);              %     Draw back side arc
-      \draw (\aPhiBf:\Re) arc (\aPhiBf:\aPhiFb:\Re);                            %     Draw back side arc
+      \pgfmathsetmacro\phiBf{2*atan2(\u-\v,\w)}                                 %     Back->front crossing angle
+      \pgfmathsetmacro\phiFb{2*atan2(\u+\v,\w)}                                 %     Front->back crossing angle
+      \pgfmathsetmacro\bUnwrapA{(\phiFb-\phiBf)>360}                            %     Unwrap front->back angle #1?
+      \pgfmathsetmacro\bUnwrapB{\phiBf>\phiFb}                                  %     Unwrap front->back angle #2?
+      \ifthenelse{\bUnwrapA=1}{\pgfmathsetmacro\phiBf{\phiBf+360}}{}            %     Unwrap front->back angle #1
+      \ifthenelse{\bUnwrapB=1}{\pgfmathsetmacro\phiBf{\phiBf-360}}{}            %     Unwrap front->back angle #2
+      \draw[dashed] (\phiFb:\re) arc (\phiFb:{\phiBf+360}:\re);                 %     Draw back side arc
+      \draw (\phiBf:\re) arc (\phiBf:\phiFb:\re);                               %     Draw back side arc
     }                                                                           %   <<
   \end{scope}                                                                   % << (Drawing scope)
 }
@@ -45,9 +45,9 @@
   \tdplotsetmaincoords{60}{125}                                                 % Set main coordintate system
   \begin{tikzpicture}[tdplot_main_coords]                                       % TikZ picture >>
     \begin{scope}[black!30]                                                     %   Draw in gray >>
-      \draw[tdplot_screen_coords] (0,0,0) circle (2.5);                           %    Sphere outline
-      \scircle{2.5}{0}{0}{0}                                                      %    Equator
+      \draw[tdplot_screen_coords] (0,0,0) circle (2.5);                         %    Sphere outline
+      \scircle{2.5}{0}{0}{0}                                                    %    Equator
     \end{scope}                                                                 %   <<
-    \scircle{2.5}{-40}{40}{30}                                                    %   Draw another sphere circle
+    \scircle{2.5}{-40}{40}{30}                                                  %   Draw another sphere circle
   \end{tikzpicture}                                                             % <<
 \end{document}

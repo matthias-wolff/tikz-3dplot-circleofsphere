@@ -51,7 +51,7 @@
 \newcommand\docCmd[2]{%
   \bigskip\noindent%
   \fboxsep=3pt
-  \fcolorbox{black!5}{black!5}{\parbox{\linewidth}{%
+  \fcolorbox{black!15}{black!15}{\parbox{\linewidth}{%
     \texttt{\textbackslash #1}}%
   }%
   \addcontentsline{toc}{subsubsection}{\texttt{\textbackslash #1}}%
@@ -111,9 +111,11 @@
       node,%
       draw,%
       ifthenelse,%
+      coordinate,%
       pgfmathsetmacro,%
       tdplotsetmaincoords,%
       tdplotsetrotatedcoords,%
+      tdplotsetrotatedcoordsorigin,%
       tdplotgcComputeTransformRotScreen,%
       tdplotgcDrawGreatCircle,%
       tdplotgcDrawGreatCircleExtras,%
@@ -121,7 +123,7 @@
       tdplotgcDrawPointExtras%
     },%
     deletetexcs={%
-      a,b,t%
+      a,b,t,u,v%
     },%
     stringstyle=\color{Orange},
     showstringspaces=false,
@@ -203,159 +205,195 @@ Download \texttt{\NtdplotCs.sty} from \cite{Wol18} file into your project folder
 and include the package with \texttt{\textbackslash
 usepackage\{\NtdplotCs\!\!\!\}}. That's all.
 
-\workOn
+% ==============================================================================
+
 \subsection{Drawing Commands}
+
+% ------------------------------------------------------------------------------
+
 \docCmd{tdplotCsDrawCircle[style]\{r\}\{alpha\}\{beta\}\{epsilon\}}{%
-  \TODO{\ldots}
+  Draws a circle of a sphere.
+}
+\begin{docParams}{Parameters}
+  \docPar{style}{%
+    TikZ style
+    \begin{itemize}
+      \item 
+        use \texttt{tdplotCsFront/.style=\{\ldots\}} to style the front side arc
+      \item 
+        use \texttt{tdplotCsBack/.style=\{\ldots\}} to style the back side arc
+      \item 
+        use \texttt{tdplotCsFill/.style=\{...\}} to style the circle filling
+      \item 
+        use \texttt{tdplotCsDrawAux} to draw some auxiliary information
+    \end{itemize}
+  }
+  \docPar{r}{%
+    Radius of sphere
+  }
+  \docPar{alpha}{%
+    Azimuthal angle of drawing plane.\newline Passed as \texttt{alpha} to 
+    \texttt{\textbackslash tdplotsetrotatedcoords\{alpha\}\{beta\}\{gamma\}}
+  }
+  \docPar{beta}{%
+    Polar angle of drawing plane.\newline Passed as \texttt{beta} to 
+    \texttt{\textbackslash tdplotsetrotatedcoords\{alpha\}\{beta\}\{gamma\}}
+  }
+  \docPar{epsilon}{%
+    Elevation angle of circle above the drawing plane. Permissible values are 
+    $-90 < \texttt{epsilon} < 90$. Use $0$ for drawing a great circle.
+  }
+\end{docParams}
+\begin{docParams}{Output}
+  \docPar{\textrm{--none--}}{}
+\end{docParams}
+
+% ------------------------------------------------------------------------------
+
+\docCmd{tdplotCsDrawGreatCircle[style]\{r\}\{alpha\}\{beta\}}{%
+  Draws a great circle.\newline Equivalent to \texttt{\textbackslash 
+  tdplotCsDrawCircleOfSphere[style]\{r\}\{alpha\}\{beta\}\{0\}}.
+}
+\begin{docParams}{Parameters}
+  \docPar{style}{%
+    TikZ style
+    \begin{itemize}
+      \item 
+        use \texttt{tdplotCsFront/.style=\{\ldots\}} to style the front side arc
+      \item 
+        use \texttt{tdplotCsBack/.style=\{\ldots\}} to style the back side arc
+      \item 
+        use \texttt{tdplotCsFill/.style=\{...\}} to style the circle filling
+      \item 
+        use \texttt{tdplotCsDrawAux} to draw some auxiliary information
+    \end{itemize}
+  }
+  \docPar{r}{%
+    Radius of sphere
+  }
+  \docPar{alpha}{%
+    Azimuthal angle of drawing plane.\newline Passed as \texttt{alpha} to 
+    \texttt{\textbackslash tdplotsetrotatedcoords\{alpha\}\{beta\}\{gamma\}}
+  }
+  \docPar{beta}{%
+    Polar angle of drawing plane.\newline Passed as \texttt{beta} to 
+    \texttt{\textbackslash tdplotsetrotatedcoords\{alpha\}\{beta\}\{gamma\}}
+  }
+\end{docParams}
+\begin{docParams}{Output}
+  \docPar{\textrm{--none--}}{}
+\end{docParams}
+
+% ------------------------------------------------------------------------------
+
+\docCmd{tdplotCsDrawLatCircle[style]\{r\}\{epsilon\}}{%
+  Draws a circle of latitude. \newline Equivalent to \texttt{\textbackslash 
+  tdplotCsDrawCircleOfSphere[style]\{r\}\{0\}\{0\}\{epsilon\}}.
+}
+\begin{docParams}{Parameters}
+  \docPar{style}{%
+    TikZ style
+    \begin{itemize}
+      \item 
+        use \texttt{tdplotCsFront/.style=\{\ldots\}} to style the front side arc
+      \item 
+        use \texttt{tdplotCsBack/.style=\{\ldots\}} to style the back side arc
+      \item 
+        use \texttt{tdplotCsFill/.style=\{...\}} to style the circle filling
+      \item 
+        use \texttt{tdplotCsDrawAux} to draw some auxiliary information
+    \end{itemize}
+  }
+  \docPar{r}{%
+    Radius of sphere
+  }
+  \docPar{epsilon}{%
+    Elevation angle of circle above the drawing plane. Permissible values are 
+    $-90 < \texttt{epsilon} < 90$. Use $0$ for drawing a great circle.
+  }
+\end{docParams}
+\begin{docParams}{Output}
+  \docPar{\textrm{--none--}}{}
+\end{docParams}
+
+% ------------------------------------------------------------------------------
+
+\docCmd{tdplotCsDrawLonCircle[style]\{r\}\{alpha\}}{%
+  Draws a circle of longitude. \newline Equivalent to \texttt{\textbackslash 
+  tdplotCsDrawCircleOfSphere[style]\{r\}\{alpha\}\{90\}\{0\}}.
+}
+\begin{docParams}{Parameters}
+  \docPar{style}{%
+    TikZ style
+    \begin{itemize}
+      \item 
+        use \texttt{tdplotCsFront/.style=\{\ldots\}} to style the front side arc
+      \item 
+        use \texttt{tdplotCsBack/.style=\{\ldots\}} to style the back side arc
+      \item 
+        use \texttt{tdplotCsFill/.style=\{...\}} to style the circle filling
+      \item 
+        use \texttt{tdplotCsDrawAux} to draw some auxiliary information
+    \end{itemize}
+  }
+  \docPar{r}{%
+    Radius of sphere
+  }
+  \docPar{alpha}{%
+    Azimuthal angle of drawing plane.\newline Passed as \texttt{alpha} to 
+    \texttt{\textbackslash tdplotsetrotatedcoords\{alpha\}\{beta\}\{gamma\}}
+  }
+\end{docParams}
+\begin{docParams}{Output}
+  \docPar{\textrm{--none--}}{}
+\end{docParams}
+
+% ------------------------------------------------------------------------------
+
+\docCmd{tdplotCsDrawPoint[style]\{r\}\{alpha\}\{beta\}}{%
+ Draws a point on a sphere.
+}
+\begin{docParams}{Parameters}
+  \docPar{style}{%
+    TikZ style
+    \begin{itemize}
+      \item 
+        use \texttt{tdplotPtFront/.style=\{\ldots\}} to style a front side point
+      \item 
+        use \texttt{tdplotPtBack/.style=\{\ldots\}} to style a back side point
+      \item 
+        use \texttt{tdplotPtDrawAux} to draw some auxiliary information
+    \end{itemize}
+  }
+  \docPar{r}{%
+    Radius of sphere
+  }
+  \docPar{alpha}{%
+    Azimuthal angle of drawing plane.\newline Passed as \texttt{alpha} to 
+    \texttt{\textbackslash tdplotsetrotatedcoords\{alpha\}\{beta\}\{gamma\}}
+  }
+  \docPar{beta}{%
+    Polar angle of drawing plane.\newline Passed as \texttt{beta} to 
+    \texttt{\textbackslash tdplotsetrotatedcoords\{alpha\}\{beta\}\{gamma\}}
+  }
+\end{docParams}
+\begin{docParams}{Output}
+  \docPar{\textrm{--none--}}{}
+\end{docParams}
+\docRemarks{%
+  \begin{itemize}
+    \item
+      Redefine \texttt{\textbackslash tdplotCsFrontsidePoint} to customize
+      drawing of a front side point.
+    \item
+      Redefine \texttt{\textbackslash tdplotCsBacksidePoint} to customize
+      drawing of a back side point.
+  \end{itemize}
 }
 
-\docCmd{tdplotCsDrawPoint[style]\{r\}\{alpha\}\{beta\}\{epsilon\}}{%
-  \TODO{\ldots}
-}
+% ==============================================================================
 
-% %
-% \docCmd{tdplotgcDrawGreatCircle[style]\{alpha\}\{beta\}\{R\}}{%
-%   Draws a great circle on a sphere. The circle is drawn on the $xy$-plane of a
-%   coordinate system rotated by \texttt{\textbackslash tdplotsetrotatedcoords}.
-%   See Example \ref{exm:1} in Section \ref{ssec:examples} for an illustration.
-% }
-% \begin{docParams}{Parameters}
-%  %
-%   \docPar{style}{
-%     \Ntikz style (optional). Use
-%     \begin{itemize}
-%       \item 
-%         \texttt{tdplotGcFront/.style=\{...\}} to style the front side semicircle,
-%       \item 
-%         \texttt{tdplotGcBack/.style=\{...\}} to style the back side semicircle, 
-%       \item 
-%         \texttt{tdplotGcFill/.style=\{...\}} to style the fill of the circle.
-%     \end{itemize}
-%     The default fill style is \texttt{opcacity=0}. To make the interior of the
-%     circle visible, you must specifiy an opacity value $>0$, e.g.
-%     \texttt{tdplotGcFill/.style=\{opacity=0.1\}}.
-%   }
-% %
-%   \docPar{alpha}{
-%     $\alpha$ angle of rotated coordinate system, to be passed to 
-%     \texttt{\textbackslash tdplotsetrotatedcoords}
-%   }
-% %
-%   \docPar{beta}{
-%     $\beta$ angle of rotated coordinate system, to be passed to 
-%     \texttt{\textbackslash tdplotsetrotatedcoords}
-%   }
-% %
-%   \docPar{R}{Radius of sphere}
-% %
-% \end{docParams}
-% \begin{docParams}{Output}
-%   \docPar{\textrm{none}}{}
-% \end{docParams}
-% 
-% \docRemarks{%
-%   Use \texttt{\textbackslash tdplotgcDrawGreatCircleExtras[style]%
-%   \{alpha\}\{beta\}\{R\}} to draw some extra information for the great circle. 
-%   See Example \ref{exm:1} in Section \ref{ssec:examples} for an illustration. 
-% }
-% 
-% \docCmd%
-%   {tdplotgcDrawPoint[style]\{alpha\}\{beta\}\{R\}}{%
-%     Draws a point on a sphere. The point is drawn at position $(0,0,\texttt{R})$
-%     of a coordinate system rotated by \texttt{\textbackslash
-%     tdplotsetrotatedcoords}. See Example \ref{exm:2} in Section
-%     \ref{ssec:examples} for an illustration.
-%   }
-% \begin{docParams}{Parameters}
-%  %
-%   \docPar{style}{
-%     \Ntikz style (optional). Use
-%     \begin{itemize}
-%       \item 
-%         \texttt{tdplotPtFront/.style=\{...\}} to style a front side point and
-%       \item 
-%         \texttt{tdplotPtBack/.style=\{...\}} to style a back side point. 
-%     \end{itemize}
-%   }
-% %
-%   \docPar{alpha}{
-%     $\alpha$ angle of rotated coordinate system, to be passed to 
-%     \texttt{\textbackslash tdplotsetrotatedcoords}
-%   }
-% %
-%   \docPar{beta}{
-%     $\beta$ angle of rotated coordinate system, to be passed to 
-%     \texttt{\textbackslash tdplotsetrotatedcoords}
-%   }
-% %
-%   \docPar{R}{Radius of sphere}
-% %
-% \end{docParams}
-% \begin{docParams}{Output}
-%   \docPar{\textrm{none}}{}
-% \end{docParams}
-% 
-% \docRemarks{%
-%   Use \texttt{\textbackslash tdplotgcDrawPointExtras[style]%
-%   \{alpha\}\{beta\}\{R\}} to draw some extra information for the great circle.  
-% }
-% 
-% \subsection{Auxiliary Commands}
-% 
-% \docCmd%
-%   {tdtdplotgcFrontsidePoint}{%
-%     Invoked by \texttt{\textbackslash tdplotgcDrawPoint} to draw a point on the
-%     front side of a sphere. Redefine to customize.
-%   }
-% \begin{docParams}{Parameters}
-%   \docPar{\textrm{none}}{}
-% \end{docParams}
-% \begin{docParams}{Output}
-%   \docPar{\textrm{none}}{}
-% \end{docParams}
-% 
-% \docCmd%
-%   {tdtdplotgcBacksidePoint}{%
-%     Invoked by \texttt{\textbackslash tdplotgcDrawPoint} to draw a point on the
-%     back side of a sphere. Redefine to customize.
-%   }
-% \begin{docParams}{Parameters}
-%   \docPar{\textrm{none}}{}
-% \end{docParams}
-% \begin{docParams}{Output}
-%   \docPar{\textrm{none}}{}
-% \end{docParams}
-% 
-% \docCmd%
-%   {tdplotgcComputeTransformRotScreen}{%
-%     Computes the elements of the full rotation matrix
-%     \[
-%        A = \begin{pmatrix}
-%              a_{xx} & a_{xy} & a_{xz} \\ 
-%              a_{yx} & a_{yy} & a_{yz} \\ 
-%              a_{zx} & a_{zy} & a_{zz} 
-%            \end{pmatrix}\!\!.
-%     \]
-%     See Section \ref{ssec:maths} for details.
-%   }
-% \begin{docParams}{Parameters}
-%   \docPar{\textrm{none}}{}
-% \end{docParams}
-% 
-% \begin{docParams}{Output}
-%   \docPar{\textbackslash axx}{Element $a_{xx}$ of full rotation matrix}
-%   \docPar{\textbackslash axy}{Element $a_{xy}$ of full rotation matrix}
-%   \docPar{\textrm{\ldots}}{}
-%   \docPar{\textbackslash azz}{Element $a_{zz}$ of full rotation matrix}
-% \end{docParams}
-% 
-% \docRemarks{%
-%   The command uses some internal variables of \Ntdplot, namely
-%   \texttt{\textbackslash tdplotalpha}, \texttt{\textbackslash tdplotbeta}, 
-%   \texttt{\textbackslash tdplotmainphi}, and \texttt{\textbackslash 
-%   tdplotmaintheta}.
-% }
-
+\workOn
 \subsection{Geographic Drawing Commands}
 \docCmd{tdplotCsDrawCircleLL[style]r\}\{lat\}\{lon\}\{elev\}}{%
   \TODO{\ldots}
@@ -372,16 +410,17 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
 \docCmd{tdplotCsDrawPointLL[style]\{r\}\{lat\}\{lon\}}{%
   \TODO{\ldots}
 }
+\workOff
 
 \subsection{Auxiliary Commands}
 \docCmd%
-  {tdtdplotCsFrontsidePoint}{%
+  {tdplotCsFrontsidePoint}{%
     Invoked by \texttt{\textbackslash tdplotCsDrawPoint} to draw a point on the
     front side of a sphere. Redefine to customize.
   }
 
 \docCmd%
-  {tdtdplotCsBacksidePoint}{%
+  {tdplotCsBacksidePoint}{%
     Invoked by \texttt{\textbackslash tdplotCsDrawPoint} to draw a point on the
     back side of a sphere. Redefine to customize.
   }
@@ -416,8 +455,6 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
   tdplotmaintheta}.
 }
 
-\workOff
-
 \subsection{Examples}\label{ssec:examples}
 \workOn
 Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the 
@@ -438,14 +475,80 @@ Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the
 \noindent\TODO{Fix examples!}
 \workOff
 
+\subsection{Known Issues}
+\begin{itemize}
+
+  \item
+    The \texttt{tdplotCsFill} and \texttt{tdplotCsDrawAux} styles are only
+    effective when specified directly with the drawing command.
+
+\end{itemize}
+
 \section{Implementation Details}
 \subsection{The Maths}\label{ssec:maths}
 
 \subsubsection{Circles on a Sphere}
 \noindent\workOn
-\TODO{Briefly explain!}\\
-\TODO{Make a picture!}
+\TODO{Briefly explain!}
 \workOff
+%
+\begin{figure}[htp]
+  \centering
+  \def\r{4}
+  \def\alp{145}
+  \def\bet{40}
+  \def\eps{40}
+  \tdplotsetmaincoords{60}{125}
+  \begin{tikzpicture}[tdplot_main_coords]
+    \begin{scope}[black!30]
+      \draw[tdplot_screen_coords] (0,0,0) circle (\r);
+      \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north]{\,\,$x_m$};
+      \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north west]{$y_m$};
+      \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south]{$z_m$};
+      \tdplotCsDrawLatCircle{\r}{0};
+    \end{scope}
+    \pgfmathsetmacro\re {\r*cos(\eps)}
+    \pgfmathsetmacro\ze {\r*sin(\eps)}
+    \pgfmathsetmacro\coX{\ze*cos(\alp)*sin(\bet)}
+    \pgfmathsetmacro\coY{\ze*sin(\alp)*sin(\bet)}
+    \pgfmathsetmacro\coZ{\ze*cos(\bet)}
+    \coordinate (coffs) at (\coX,\coY,\coZ);
+    % Rotation transform
+    \begin{scope}[RoyalBlue]
+      \draw[RoyalBlue!50!OrangeRed,->] (0,0,0) -- (coffs) node[anchor=east]{$\vec{o}$\,};
+      %\draw[very thin, dashed] (0,0,0) -- (\coX,\coY,0) -- (\coX,\coY,\coZ);
+      \draw[very thin, dashed] (\coX,\coY,0) -- (\coX,\coY,\coZ);
+      \draw[->] (0:0.2*\r) arc (0:\alp:0.2*\r);
+      \node at ({0.35*\alp}:0.13*\r) {$\alpha$};
+      \tdplotsetthetaplanecoords{\alp}
+      \draw[tdplot_rotated_coords,->] (0:0.4*\r) arc (0:\bet:0.4*\r); 
+      \node[tdplot_rotated_coords] at ({\bet/2}:0.3*\r) {$\beta$};
+      \tdplotCsDrawGreatCircle[tdplotCsFill/.style={opacity=0.1}]{\r}{\alp}{\bet}
+      \tdplotsetrotatedcoords{\alp}{\bet}{0}
+      \begin{scope}[tdplot_rotated_coords,opacity=0.5]
+        \draw[->] (0,0,0) -- (\r,0,0) node[anchor=north east]{$x_r$};
+        \draw[->] (0,0,0) -- (0,\r,0) node[anchor=north east]{$y_r$};
+      \end{scope}
+    \end{scope}
+    % Offset transform
+    \tdplotsetthetaplanecoords{\alp}
+    \draw[tdplot_rotated_coords,->,OrangeRed] (\bet+90:0.6*\r) arc (\bet+90:\bet-\eps+90:0.6*\r); 
+    \node[tdplot_rotated_coords,OrangeRed] at ({\bet+90-(2*\eps/3)}:0.55*\r) {$\epsilon$};
+    \tdplotsetrotatedcoords{\alp}{\bet}{0}
+    \coordinate (coffs) at (\coX,\coY,\coZ);
+    \tdplotsetrotatedcoordsorigin{(coffs)}
+    \begin{scope}[tdplot_rotated_coords,opacity=0.5,OrangeRed]
+      \fill[opacity=0.1] (0,0) circle (\re);
+      \draw[->] (0,0,0) -- (\re,0,0) node[anchor=north east]{$x$};
+      \draw[->] (0,0,0) -- (0,\re,0) node[anchor=north east]{$y$};
+      \draw[->] (0,0,0) -- (0,0,\re) node[anchor=north west]{$z$};
+      \draw[RoyalBlue!50!OrangeRed,opacity=1] (0,0,-\ze) -- (\re,0,0);
+    \end{scope}
+    \tdplotCsDrawCircleOfSphere[very thick]{\r}{\alp}{\bet}{\eps}
+  \end{tikzpicture}
+  \caption{\TODO{\ldots}}
+  \label{fig:coas}
+\end{figure}
 
 \subsubsection{Coordinate Transforms with \Ntdplot}
 For drawing circles on a sphere, we use the \texttt{circle} and \texttt{arc}
@@ -600,9 +703,9 @@ the height above the $xy$-plane, and $\epsilon$ the elevation angle. Fig.
 \begin{figure}[htp]
 \begin{center}
   \begin{tikzpicture}[scale=2]
-    \draw[->] (-1.2,0) -- (1.2,0) node[anchor=north] {$y$};
+    \draw[->] (-1.2,0) -- (1.2,0) node[anchor=north] {$x$};
     \draw[->] (0,0) -- (0,1.2) node[anchor=east] {$z$};
-    \draw[->] (0,-0.2) -- (0,0) node[anchor=north east] {$x$};
+    \draw[->] (0,-0.2) -- (0,0) node[anchor=north east] {$y$};
     \draw (0:1) arc (0:180:1);
     \draw (0:0) -- (30:1); 
     \draw[->] (0:0.5) arc (0:30:0.5);
