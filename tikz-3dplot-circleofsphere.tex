@@ -20,11 +20,11 @@
 \usepackage{xspace}
 \usepackage{authblk}
 \usepackage{url}
-%\usepackage{bera}
 \usepackage{afterpage}
 \usepackage{longtable}
 \usepackage{listings}
 \usepackage{showexpl}
+\usepackage[capitalize]{cleveref}
 \usepackage{tikz}
 \usepackage{tikz-3dplot}
 \usepackage{tikz-3dplot-circleofsphere}
@@ -181,8 +181,13 @@ Drawing circles of a sphere with \Ntdplot}
   \end{minipage}
   \vfill
   \begin{tabular}{@{\extracolsep{-10pt}}cc}
-    \parbox[t]{220pt}{\LTXinputExample[style=lstsFrontPage]{example_frontpage1}}
-    & \parbox[t]{220pt}{\LTXinputExample[style=lstsFrontPage]{example_frontpage2}}
+    \parbox[t]{220pt}{
+      \LTXinputExample[style=lstsFrontPage]{example_frontpage1}
+    }
+  & \parbox[t]{220pt}{
+      \vspace*{-8pt}
+      \LTXinputExample[style=lstsFrontPage,vsep=6pt]{example_frontpage2}
+    }
   \end{tabular}
   \vfill
 \end{center}
@@ -488,9 +493,16 @@ Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the
 \subsection{The Maths}\label{ssec:maths}
 
 \subsubsection{Circles on a Sphere}
-\noindent\workOn
-\TODO{Briefly explain!}
-\workOff
+We consider circles on a sphere of radius $r$ as illustrated in \cref{fig:coas}.
+For drawing a great circle, i.e. a circle whose center coincides with the center
+of the sphere (blue in \cref{fig:coas}), we rotate the coordinate system by two
+Euler angles, an azimuthal angle $0^\circ\leq \alpha < 360^\circ$ and a polar
+angle $0^\circ\leq \beta < 360^\circ$, and draw on the new $x_ry_r$ plane. For
+drawing small circles (red in \cref{fig:coas}), we additionally elevate the
+drawing plane by an angle $-90^\circ < \epsilon < 90^\circ$, $\epsilon\neq 0$,
+and draw on the rotated and elevated $x_{ro}y_{ro}$ plane. The tricky part of
+drawing circles of spheres is to compute which part is on the back side of the
+sphere and to draw it a different style, e.g., dashed.
 %
 \begin{figure}[htp]
   \centering
@@ -502,9 +514,9 @@ Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the
   \begin{tikzpicture}[tdplot_main_coords]
     \begin{scope}[black!30]
       \draw[tdplot_screen_coords] (0,0,0) circle (\r);
-      \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north]{\,\,$x_m$};
-      \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north west]{$y_m$};
-      \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south]{$z_m$};
+      \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north]{\,\,$x$};
+      \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north west]{$y$};
+      \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south]{$z$};
       \tdplotCsDrawLatCircle{\r}{0};
     \end{scope}
     \pgfmathsetmacro\re {\r*cos(\eps)}
@@ -523,11 +535,14 @@ Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the
       \tdplotsetthetaplanecoords{\alp}
       \draw[tdplot_rotated_coords,->] (0:0.4*\r) arc (0:\bet:0.4*\r); 
       \node[tdplot_rotated_coords] at ({\bet/2}:0.3*\r) {$\beta$};
-      \tdplotCsDrawGreatCircle[tdplotCsFill/.style={opacity=0.1}]{\r}{\alp}{\bet}
+      \tdplotCsDrawGreatCircle[thick,tdplotCsFill/.style={opacity=0.1}]{\r}{\alp}{\bet}
       \tdplotsetrotatedcoords{\alp}{\bet}{0}
       \begin{scope}[tdplot_rotated_coords,opacity=0.5]
         \draw[->] (0,0,0) -- (\r,0,0) node[anchor=north east]{$x_r$};
         \draw[->] (0,0,0) -- (0,\r,0) node[anchor=north east]{$y_r$};
+        \draw[dotted,->] (0,-\r,0) -- (0,0,0);
+        \draw[ultra thick,<-,opacity=1] (0,-1.2*\r,0) -- (0,-1.5*\r,0) 
+          node[anchor=north]{\scriptsize View angle of \cref{fig:elevCirc}};
       \end{scope}
     \end{scope}
     % Offset transform
@@ -538,28 +553,26 @@ Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the
     \coordinate (coffs) at (\coX,\coY,\coZ);
     \tdplotsetrotatedcoordsorigin{(coffs)}
     \begin{scope}[tdplot_rotated_coords,opacity=0.5,OrangeRed]
-      \fill[opacity=0.1] (0,0) circle (\re);
-      \draw[->] (0,0,0) -- (\re,0,0) node[anchor=north east]{$x$};
-      \draw[->] (0,0,0) -- (0,\re,0) node[anchor=north east]{$y$};
-      \draw[->] (0,0,0) -- (0,0,\re) node[anchor=north west]{$z$};
+      \draw[->] (0,0,0) -- (\re,0,0) node[anchor=north]{$x_{ro}$\,\,\,\,};
+      \draw[->] (0,0,0) -- (0,\re,0) node[anchor=north]{$y_{ro}$\,\,\,\,};
+      %\draw[->] (0,0,0) -- (0,0,\re) node[anchor=north west]{$z_{ro}$};
       \draw[RoyalBlue!50!OrangeRed,opacity=1] (0,0,-\ze) -- (\re,0,0);
     \end{scope}
-    \tdplotCsDrawCircleOfSphere[very thick]{\r}{\alp}{\bet}{\eps}
+    \tdplotCsDrawCircleOfSphere[thick,OrangeRed,tdplotCsFill/.style={opacity=0.1}]{\r}{\alp}{\bet}{\eps}
   \end{tikzpicture}
-  \caption{\TODO{\ldots}}
+  \caption{A great circle (blue) and a small circle (red).}
   \label{fig:coas}
 \end{figure}
 
 \subsubsection{Coordinate Transforms with \Ntdplot}
-For drawing circles on a sphere, we use the \texttt{circle} and \texttt{arc}
-path construction operations of \Ntikz. As \Ntikz will only draw circles and
-arcs on the $xy$-plane, we need to rotate and possibly offset the coordinate
-system for drawing circles of spheres. This functionality is provided by the
-\Ntdplot \cite{Hei12} package.
+We use the \texttt{circle} and \texttt{arc} path construction operations of
+\Ntikz for drawing. As \Ntikz will only draw circles and arcs on the $xy$-plane,
+we need to rotate and possibly offset the coordinate system as described above
+using the \Ntdplot \cite{Hei12} package.
 
 First, \Ntdplot provides a \emph{main coordinate system} which is basicly
-defining the view point a 3D coordinate system. Denote by $P=(x\,y\,z)^\top$ a
-point in the 3D coordinate system. \Ntdplot transforms that point in to screen
+defining the view point on a 3D coordinate system. Denote by $P=(x\,y\,z)^\top$
+a point in the 3D coordinate system. \Ntdplot transforms that point in to screen
 coordinates $P'=(x'\, y'\,z')^\top$ by
 \begin{align}
   \begin{pmatrix} x' \\ y' \\ z' \end{pmatrix}
@@ -594,6 +607,9 @@ R^{z'}(\phi)^\top$, rotations are performed on opposite order and direction.}
         \sin\theta \sin\phi & -\sin\theta \cos\phi & \cos\theta
      \end{pmatrix}\!\!.
 \end{align}
+We set the main coordinate system by \texttt{\textbackslash 
+tdplotsetmaincoords\{$\langle\phi\rangle$\}\{$\langle\theta\rangle$\}}.
+
 Second, for drawing circles and arcs outside the $xy$-plane, we need to rotate
 the coordinate system further. To this end, we use \Ntdplot's \emph{rotated
 coordinate system}\footnote{Equation (2.4) in \cite{Hei12} seems to be
@@ -672,46 +688,38 @@ $\gamma=0$. Thus, the full rotation matrix for drawing a great circle is
        \cos\beta\cos\theta + \cos\alpha\sin\beta\sin\phi\sin\theta - \cos\phi\sin\alpha\sin\beta\sin\theta
      \end{array}\right)
 \end{align}
+The rotated coordinate system is set by \texttt{\textbackslash 
+tdplotsetrotatedcoords\{$\langle\alpha\rangle$\}\{$\langle\beta\rangle$\}\{0\}}.
 
-With the coordinate transforms described so far, we can only draw circles and
-arcs whose center is the origin of the main coordinate systems. For drawing
-other circles on a sphere, we additionally need to offset the origin of the
-rotated coordinate system. This is provided by the \texttt{\textbackslash
-tdplotsetrotatedcoordsorigin} command of \Ntdplot.
-
-\noindent\workOn
-\TODO{Describe how!}
-\workOff
-
-\subsubsection{Drawing Circles of a Sphere}
-The parametric representation of a circle at a plane parallel to the $xy$-plane
-is
+With the coordinate transforms described so far, we can only draw great circles.
+For drawing small circles, we additionally need to offset the origin of the
+rotated coordinate system. To this end we define an elevation angle $\epsilon$
+which defines the height
 \begin{equation}
-  \label{eqn:csparametric}
-  \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
-  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ z_e \end{pmatrix}\!,
+  z_e = r\,\sin\epsilon
 \end{equation}
-where $-180^\circ<\varphi\leq 180^\circ$ the angle parameter,
-\begin{align}
-  r_e &= \cos\epsilon
-\intertext{the radius,}
-  z_e &= \sin\epsilon
-\end{align}
-the height above the $xy$-plane, and $\epsilon$ the elevation angle. Fig.
-\ref{fig:elevCirc} shows an illustration.
+of the offset drawing plane over the rotated one as illustrated in
+Fig.\,\ref{fig:elevCirc} ($r$ is still the radius of the sphere). As the circle
+to be drawn must lie on the sphere, its radius
+\begin{equation}
+  r_e = r\,\cos\epsilon
+\end{equation}
+decreases with increasing elevation.
 %
 \begin{figure}[htp]
 \begin{center}
   \begin{tikzpicture}[scale=2]
-    \draw[->] (-1.2,0) -- (1.2,0) node[anchor=north] {$x$};
-    \draw[->] (0,0) -- (0,1.2) node[anchor=east] {$z$};
-    \draw[->] (0,-0.2) -- (0,0) node[anchor=north east] {$y$};
-    \draw (0:1) arc (0:180:1);
+    \draw[->] (-1.2,0) -- (1.2,0) node[anchor=north] {$x_r$};
+    \draw[->] (0,-1.2) -- (0,1.2) node[anchor=east] {$z_r$};
+    \draw[->] (0,0) -- (0,0) node[anchor=north east] {$y_r$};
+    \draw (0,0) circle (1);
+    \draw[RoyalBlue,very thick] (-1,0) -- (1,0);
     \draw (0:0) -- (30:1); 
     \draw[->] (0:0.5) arc (0:30:0.5);
     \node at (15:0.3) {$\epsilon$};
-    \draw (-0.05,{sin(30)}) -- ({cos(30)},{sin(30)}) -- ({cos(30)},-0.05); 
-    \node[anchor=east] at (-0.05,{sin(30)}) {$z_e$};
+    \draw ({cos(30)},{sin(30)}) -- ({cos(30)},-0.05); 
+    \draw[OrangeRed,very thick] ({-cos(30)},{sin(30)}) -- ({cos(30)},{sin(30)});
+    \node[anchor=south east] at (-0.05,{sin(30)}) {$z_e$};
     \node[anchor=north] at ({cos(30)},-0.05) {$r_e$};
   \end{tikzpicture}
   \caption{Illustration of $z$-coordinate and radius of an elevated circle on
@@ -720,15 +728,46 @@ the height above the $xy$-plane, and $\epsilon$ the elevation angle. Fig.
 \end{center}
 \end{figure}
 
-\noindent
-Note that we actually \emph{draw} this circle in the rotated \emph{and offset}
-coordinate system where it takes the form
+The offset vector (see \cref{fig:coas}) is given by
+\begin{equation}
+  \vec{o}
+  = D(\alpha,\beta,0)\begin{pmatrix} 0 \\ 0 \\ z_e \end{pmatrix}
+  = \begin{pmatrix}
+      z_e\cos\alpha\sin\beta \\
+      z_e\sin\alpha\sin\beta \\
+      z_e\cos\beta
+    \end{pmatrix}
+  = \begin{pmatrix}
+      r\,\sin\epsilon\cos\alpha\sin\beta \\
+      r\,\sin\epsilon\sin\alpha\sin\beta \\
+      r\,\sin\epsilon\cos\beta
+    \end{pmatrix}
+\end{equation}
+and applied through \texttt{\textbackslash
+tdplotsetrotatedcoordsorigin\{$\langle\vec{o}\,\rangle$\}} command of \Ntdplot.
+
+\subsubsection{Drawing Circles of a Sphere}
+The parametric representation of a circle of a sphere in the rotated and offset 
+coordinate system is
 \begin{equation}
   \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
-  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ {\CORR{0}} \end{pmatrix}\!.
+  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ 0 \end{pmatrix}.
 \end{equation}
-However, we will stick to Eqn.\,(\ref{eqn:csparametric}) for simplicity. The
-screen coordinates for Eqn.\,(\ref{eqn:csparametric}) are
+After applying the coordinate transforms described above, we could just draw
+this circle by 
+\begin{equation*}
+  \texttt{\textbackslash draw (0,0) circle $\langle r_e\rangle $;}
+\end{equation*}
+
+However, as we want to visualize the parts of the circle lying on the front and
+back sides of the sphere, we consider the parametric representation in the
+rotated but not \emph{not}(!) offset coordinate system
+\begin{equation}
+  \label{eqn:csparametric}
+  \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
+  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ z_e \end{pmatrix}\!.
+\end{equation}
+The respective screen coordinates are
 \begin{align}
   \begin{pmatrix} x'(\varphi) \\ y'(\varphi) \\ z'(\varphi) \end{pmatrix}
   &= A \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
@@ -750,11 +789,11 @@ screen coordinates for Eqn.\,(\ref{eqn:csparametric}) are
        a_{zx}\cdot r\cos\epsilon\cos\varphi + a_{zy}\cdot r\cos\epsilon\sin\varphi + a_{zz}\cdot r\sin\epsilon
      \end{pmatrix}\!\!.
 \end{align}
-The $z'(\varphi)$ coordinates are not plotted. However, they are useful for
-determining which parts of the circle are
+By examining the $z'(\varphi)$ coordinate we can determine which parts of the
+circle are
 \begin{align}
-  \text{on the front side} &\quad z'(\varphi)\geq 0 \quad\text{and}\\
-  \text{on the back side}  &\quad z'(\varphi)< 0\notag
+  \text{on the front side (or ``above'' the drawing paper)} &\quad z'(\varphi)> 0 \quad\text{and}\\
+  \text{on the back side (or ``below'' the drawing paper)}  &\quad z'(\varphi)< 0\notag
 \end{align}
 of the sphere. We denote by $\varphi_0$ the crossing angles between the front
 and back sides. In order to determine them we solve
@@ -817,6 +856,8 @@ condition \,(\ref{eqn:phi0cond}) are equal}
 \end{align}
 Otherwise it has no solutions, which means that the circle lies entirely either
 on the front side or on the back side of the sphere.
+
+\TODO{Angle unwrapping!}
 
 \subsection{The Package Source Code}
 \lstinputlisting[style=lstsLatex,linewidth=483pt]{tikz-3dplot-circleofsphere.sty}

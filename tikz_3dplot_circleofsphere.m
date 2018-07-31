@@ -72,12 +72,4 @@ assume(azz,'real');
 eqn = azx*r*cos(eps)*cos(p0) + azy*r*cos(eps)*sin(p0) + azz*r*sin(eps) == 0
 solve(eqn,p0,'Real',true)
 
-% syms p0 u v w
-% assume(p0,'real');
-% assume(u,'real');
-% assume(v,'real');
-% assume(w,'real');
-% eqn = u*cos(p0) + v*sin(p0) + w == 0;
-% solve(eqn,p0,'Real',true)
-
 %% == EOF =====================================================================

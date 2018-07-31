@@ -2,15 +2,15 @@
 \usepackage{tikz-3dplot-circleofsphere}
 \begin{document}
   \centering
-  \def\R{3}
+  \def\r{3}
   \tdplotsetmaincoords{60}{125}
   \begin{tikzpicture}[tdplot_main_coords]
     \def\e{80};
-    \draw[tdplot_screen_coords,very thin] (0,0,0) circle (\R);
+    \draw[tdplot_screen_coords,very thin] (0,0,0) circle (\r);
     \foreach \a in {0,5,...,175} {
       \tdplotCsDrawGreatCircle%
         [very thin, tdplotCsBack/.style={very thin,blue!40}]%
-        {\R}{\a}{90*sin(\a)*sin(\e)}
+        {\r}{\a}{90*sin(\a)*sin(\e)}
     }
   \end{tikzpicture}
 \end{document}
