@@ -7,7 +7,7 @@
 %% References:
 %% [1] R. Niepraschk: The showexpl package. 2016. Online, retrieved July 23, 2018. 
 %%     http://mirror.ctan.org/macros/latex/contrib/showexpl/doc/showexpl.pdf
-%%     http://mirror.ctan.org/CTAN/macros/latex/contrib/showexpl/doc/showexpl-test.pdf
+%%     http://mirror.ctan.org/macros/latex/contrib/showexpl/doc/showexpl-test.pdf
 %% [2] C. Heinz, B. Moses, and J. Hoffmann. The Listings Package. 2015. Online, retrieved July 23, 2018.
 %%     http://mirror.ctan.org/macros/latex/contrib/listings/listings.pdf
 %%
@@ -64,7 +64,7 @@
   
   \bgroup
   \renewcommand{\arraystretch}{1.5}
-  \begin{longtable}{p{40pt}p{382pt}}
+  \begin{longtable}{p{40pt}p{370pt}}
 }{
   ~ & ~\\[-30pt] 
   \end{longtable}
@@ -75,6 +75,10 @@
 \bigskip\noindent\textbf{Remarks}
 
 \bigskip\noindent%
+}
+\newcommand{\docExample}{%
+  \bigskip\noindent\textbf{Example}
+
 }
 %
 % Settings
@@ -117,13 +121,14 @@
       tdplotsetrotatedcoords,%
       tdplotsetrotatedcoordsorigin,%
       tdplotgcComputeTransformRotScreen,%
-      tdplotgcDrawGreatCircle,%
-      tdplotgcDrawGreatCircleExtras,%
-      tdplotgcDrawPoint,%
-      tdplotgcDrawPointExtras%
+      tdplotCsDrawCircle,%
+      tdplotCsDrawGreatCircle,%
+      tdplotCsDrawLatCircle,%
+      tdplotCsDrawLonCircle,%
+      tdplotCsDrawPoint,%
     },%
     deletetexcs={%
-      a,b,t,u,v%
+      a,b,t,u,v,r%
     },%
     stringstyle=\color{Orange},
     showstringspaces=false,
@@ -150,6 +155,13 @@
   rframe=,
   varwidth=true, justification=\centering
 }
+\lstdefinestyle{lstsDocExamples}{
+  style=lstsLatex,
+  overhang={7pt},
+  pos=l,
+  rframe=,
+  varwidth=true
+}
 % - Other
 \setcounter{secnumdepth}{2}
 
@@ -175,9 +187,6 @@ Drawing circles of a sphere with \Ntdplot}
     a dashed one on the back side, is a somewhat tricky feat. The \NtdplotCs
     package will perform that feat for you.
 
-    \bigskip{\color{red}
-    \textbf{Note:} Package and documentation are under construction!
-    }
   \end{minipage}
   \vfill
   \begin{tabular}{@{\extracolsep{-10pt}}cc}
@@ -208,7 +217,7 @@ Want some more convenience or interested in what we did? Read on\ldots
 \subsection{Installation}
 Download \texttt{\NtdplotCs.sty} from \cite{Wol18} file into your project folder
 and include the package with \texttt{\textbackslash
-usepackage\{\NtdplotCs\!\!\!\}}. That's all.
+usepackage\{\NtdplotCs\!\!\!\}}.
 
 % ==============================================================================
 
@@ -252,12 +261,28 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
 \begin{docParams}{Output}
   \docPar{\textrm{--none--}}{}
 \end{docParams}
+\docExample
+\begin{LTXexample}[style=lstsDocExamples]
+\def\r{1.5}
+\tdplotsetmaincoords{60}{125}
+\begin{tikzpicture}[tdplot_main_coords]
+  \begin{scope}[thin,black!30]
+    \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north east] {$x$};
+    \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north] {$y$};
+    \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south east] {$z$};
+    \draw[tdplot_screen_coords] (0,0,0) circle (\r);
+    \tdplotCsDrawLatCircle{\r}{0}
+  \end{scope}
+  \tdplotCsDrawCircle{\r}{-40}{40}{30}
+\end{tikzpicture}
+\end{LTXexample}
 
 % ------------------------------------------------------------------------------
 
+\pagebreak
 \docCmd{tdplotCsDrawGreatCircle[style]\{r\}\{alpha\}\{beta\}}{%
   Draws a great circle.\newline Equivalent to \texttt{\textbackslash 
-  tdplotCsDrawCircleOfSphere[style]\{r\}\{alpha\}\{beta\}\{0\}}.
+  tdplotCsDrawCircle[style]\{r\}\{alpha\}\{beta\}\{0\}}.
 }
 \begin{docParams}{Parameters}
   \docPar{style}{%
@@ -288,12 +313,27 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
 \begin{docParams}{Output}
   \docPar{\textrm{--none--}}{}
 \end{docParams}
+\docExample
+\begin{LTXexample}[style=lstsDocExamples]
+\def\r{1.5}
+\tdplotsetmaincoords{60}{125}
+\begin{tikzpicture}[tdplot_main_coords]
+  \begin{scope}[thin,black!30]
+    \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north east] {$x$};
+    \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north] {$y$};
+    \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south east] {$z$};
+    \draw[tdplot_screen_coords] (0,0,0) circle (\r);
+    \tdplotCsDrawLatCircle{\r}{0}
+  \end{scope}
+  \tdplotCsDrawGreatCircle[tdplotCsFill/.style={green,opacity=0.2}]{\r}{-40}{40}
+\end{tikzpicture}
+\end{LTXexample}
 
 % ------------------------------------------------------------------------------
 
 \docCmd{tdplotCsDrawLatCircle[style]\{r\}\{epsilon\}}{%
   Draws a circle of latitude. \newline Equivalent to \texttt{\textbackslash 
-  tdplotCsDrawCircleOfSphere[style]\{r\}\{0\}\{0\}\{epsilon\}}.
+  tdplotCsDrawCircle[style]\{r\}\{0\}\{0\}\{epsilon\}}.
 }
 \begin{docParams}{Parameters}
   \docPar{style}{%
@@ -314,18 +354,33 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
   }
   \docPar{epsilon}{%
     Elevation angle of circle above the drawing plane. Permissible values are 
-    $-90 < \texttt{epsilon} < 90$. Use $0$ for drawing a great circle.
+    $-90 < \texttt{epsilon} < 90$. Use $0$ for drawing the sphere equator.
   }
 \end{docParams}
 \begin{docParams}{Output}
   \docPar{\textrm{--none--}}{}
 \end{docParams}
+\docExample
+\begin{LTXexample}[style=lstsDocExamples]
+\def\r{1.5}
+\tdplotsetmaincoords{60}{125}
+\begin{tikzpicture}[tdplot_main_coords]
+  \begin{scope}[thin,black!30]
+    \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north east] {$x$};
+    \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north] {$y$};
+    \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south east] {$z$};
+    \draw[tdplot_screen_coords] (0,0,0) circle (\r);
+    \tdplotCsDrawLatCircle{\r}{0}
+  \end{scope}
+  \tdplotCsDrawLatCircle[tdplotCsFront/.style={green}]{\r}{40}
+\end{tikzpicture}
+\end{LTXexample}
 
 % ------------------------------------------------------------------------------
 
 \docCmd{tdplotCsDrawLonCircle[style]\{r\}\{alpha\}}{%
   Draws a circle of longitude. \newline Equivalent to \texttt{\textbackslash 
-  tdplotCsDrawCircleOfSphere[style]\{r\}\{alpha\}\{90\}\{0\}}.
+  tdplotCsDrawCircle[style]\{r\}\{alpha\}\{90\}\{0\}}.
 }
 \begin{docParams}{Parameters}
   \docPar{style}{%
@@ -352,6 +407,21 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
 \begin{docParams}{Output}
   \docPar{\textrm{--none--}}{}
 \end{docParams}
+\docExample
+\begin{LTXexample}[style=lstsDocExamples]
+\def\r{1.5}
+\tdplotsetmaincoords{60}{125}
+\begin{tikzpicture}[tdplot_main_coords]
+  \begin{scope}[thin,black!30]
+    \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north east] {$x$};
+    \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north] {$y$};
+    \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south east] {$z$};
+    \draw[tdplot_screen_coords] (0,0,0) circle (\r);
+    \tdplotCsDrawLatCircle{\r}{0}
+  \end{scope}
+  \tdplotCsDrawLonCircle[thick,tdplotCsBack/.style={thin,solid,green}]{\r}{0}
+\end{tikzpicture}
+\end{LTXexample}
 
 % ------------------------------------------------------------------------------
 
@@ -366,8 +436,8 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
         use \texttt{tdplotPtFront/.style=\{\ldots\}} to style a front side point
       \item 
         use \texttt{tdplotPtBack/.style=\{\ldots\}} to style a back side point
-      \item 
-        use \texttt{tdplotPtDrawAux} to draw some auxiliary information
+%      \item 
+%        use \texttt{tdplotPtDrawAux} to draw some auxiliary information
     \end{itemize}
   }
   \docPar{r}{%
@@ -395,27 +465,23 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
       drawing of a back side point.
   \end{itemize}
 }
+\docExample
+\begin{LTXexample}[style=lstsDocExamples]
+\def\r{1.5}
+\tdplotsetmaincoords{60}{125}
+\begin{tikzpicture}[tdplot_main_coords]
+  \begin{scope}[thin,black!30]
+    \draw[->] (-1.3*\r,0,0) -- (1.3*\r,0,0) node[anchor=north east] {$x$};
+    \draw[->] (0,-1.3*\r,0) -- (0,1.3*\r,0) node[anchor=north] {$y$};
+    \draw[->] (0,0,-1.3*\r) -- (0,0,1.3*\r) node[anchor=south east] {$z$};
+    \draw[tdplot_screen_coords] (0,0,0) circle (\r);
+    \tdplotCsDrawLatCircle{\r}{0}
+  \end{scope}
+  \tdplotCsDrawPoint{\r}{-40}{40}
+\end{tikzpicture}
+\end{LTXexample}
 
-% ==============================================================================
-
-\workOn
-\subsection{Geographic Drawing Commands}
-\docCmd{tdplotCsDrawCircleLL[style]r\}\{lat\}\{lon\}\{elev\}}{%
-  \TODO{\ldots}
-}
-
-\docCmd{tdplotCsDrawLatitudeCircleLL[style]r\}\{lat\}}{%
-  \TODO{\ldots}
-}
-
-\docCmd{tdplotCsDrawLongitudeCircleLL[style]r\}\{lon\}}{%
-  \TODO{\ldots}
-}
-
-\docCmd{tdplotCsDrawPointLL[style]\{r\}\{lat\}\{lon\}}{%
-  \TODO{\ldots}
-}
-\workOff
+%% ============================================================================
 
 \subsection{Auxiliary Commands}
 \docCmd%
@@ -460,26 +526,6 @@ usepackage\{\NtdplotCs\!\!\!\}}. That's all.
   tdplotmaintheta}.
 }
 
-\subsection{Examples}\label{ssec:examples}
-\workOn
-Examples \ref{exm:1} and \ref{exm:2} (see below) demonstrate the usage of the 
-\NtdplotCs package.
-% \afterpage{
-%   \LTXinputExample[%
-%     style=lstsLongLines,
-%     caption={Illustration of the \texttt{\textbackslash tdplotgcDrawGreatCircle} command},
-%     label=exm:1
-%   ]{example1}
-%   \LTXinputExample[%
-%     style=lstsLongLines,
-%     caption={Illustration of the \texttt{\textbackslash tdplotgcDrawPoint} command},
-%     label=exm:2
-%   ]{example2}
-% }
-
-\noindent\TODO{Fix examples!}
-\workOff
-
 \subsection{Known Issues}
 \begin{itemize}
 
@@ -501,7 +547,7 @@ angle $0^\circ\leq \beta < 360^\circ$, and draw on the new $x_ry_r$ plane. For
 drawing small circles (red in \cref{fig:coas}), we additionally elevate the
 drawing plane by an angle $-90^\circ < \epsilon < 90^\circ$, $\epsilon\neq 0$,
 and draw on the rotated and elevated $x_{ro}y_{ro}$ plane. The tricky part of
-drawing circles of spheres is to compute which part is on the back side of the
+drawing circles of spheres is to determine which part is on the back side of the
 sphere and to draw it a different style, e.g., dashed.
 %
 \begin{figure}[htp]
@@ -558,7 +604,7 @@ sphere and to draw it a different style, e.g., dashed.
       %\draw[->] (0,0,0) -- (0,0,\re) node[anchor=north west]{$z_{ro}$};
       \draw[RoyalBlue!50!OrangeRed,opacity=1] (0,0,-\ze) -- (\re,0,0);
     \end{scope}
-    \tdplotCsDrawCircleOfSphere[thick,OrangeRed,tdplotCsFill/.style={opacity=0.1}]{\r}{\alp}{\bet}{\eps}
+    \tdplotCsDrawCircle[thick,OrangeRed,tdplotCsFill/.style={opacity=0.1}]{\r}{\alp}{\bet}{\eps}
   \end{tikzpicture}
   \caption{A great circle (blue) and a small circle (red).}
   \label{fig:coas}
@@ -578,10 +624,10 @@ coordinates $P'=(x'\, y'\,z')^\top$ by
   \begin{pmatrix} x' \\ y' \\ z' \end{pmatrix}
   &= R^d(\phi,\theta) \begin{pmatrix} x \\ y \\ z \end{pmatrix}
 \end{align}
-with the rotation matrix\footnote{Equation (2.1) in \cite{Hei12} seems to be
+with the rotation matrix\footnote{Eqn.\,(2.1) in \cite{Hei12} seems to be
 incorrect. I used a version with changes marked in red: Since
 $\big(R^{z'}(\phi)\, R^x(\theta)\big)^\top = R^x(\theta)^\top\,
-R^{z'}(\phi)^\top$, rotations are performed on opposite order and direction.}
+R^{z'}(\phi)^\top$, rotations are performed in reverse order and direction.}
 \begin{align}
   R^d(\phi,\theta)
   &= \CORR{\big({\color{black}R^{z'}(\phi)\,R^x(\theta)}\big)^\top}
@@ -612,9 +658,9 @@ tdplotsetmaincoords\{$\langle\phi\rangle$\}\{$\langle\theta\rangle$\}}.
 
 Second, for drawing circles and arcs outside the $xy$-plane, we need to rotate
 the coordinate system further. To this end, we use \Ntdplot's \emph{rotated
-coordinate system}\footnote{Equation (2.4) in \cite{Hei12} seems to be
+coordinate system}\footnote{Eqn.\,(2.4) in \cite{Hei12} seems to be
 incorrect. I used a version with changes marked in red: Rotations are performed
-in opposite order.}
+in reverse order.}
 \begin{align}
   \begin{pmatrix} x' \\ y' \\ z' \end{pmatrix}
   &= \CORR{R^d(\phi,\theta)\,D(\alpha,\beta,\gamma)}
@@ -751,14 +797,13 @@ The parametric representation of a circle of a sphere in the rotated and offset
 coordinate system is
 \begin{equation}
   \begin{pmatrix} x(\varphi) \\ y(\varphi) \\ z(\varphi) \end{pmatrix}
-  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ 0 \end{pmatrix}.
+  = \begin{pmatrix} r_e\cos\varphi \\ r_e\sin\varphi \\ 0 \end{pmatrix}\!.
 \end{equation}
 After applying the coordinate transforms described above, we could just draw
 this circle by 
 \begin{equation*}
   \texttt{\textbackslash draw (0,0) circle $\langle r_e\rangle $;}
 \end{equation*}
-
 However, as we want to visualize the parts of the circle lying on the front and
 back sides of the sphere, we consider the parametric representation in the
 rotated but not \emph{not}(!) offset coordinate system
@@ -792,6 +837,7 @@ The respective screen coordinates are
 By examining the $z'(\varphi)$ coordinate we can determine which parts of the
 circle are
 \begin{align}
+  \label{eqn:abovebelow}
   \text{on the front side (or ``above'' the drawing paper)} &\quad z'(\varphi)> 0 \quad\text{and}\\
   \text{on the back side (or ``below'' the drawing paper)}  &\quad z'(\varphi)< 0\notag
 \end{align}
@@ -849,15 +895,48 @@ Here we used the $\atann(x,y)$ function which is defined as
 \end{equation}
 Iff condition\,(\ref{eqn:phi0cond}) holds, Eqn.\,(\ref{eqn:phi0}) has
 exactly two solutions,\footnote{which coincide iff the left and right sides of
-condition \,(\ref{eqn:phi0cond}) are equal}
+condition\,(\ref{eqn:phi0cond}) are equal}
 \begin{align}
   \varphi_{0,\text{bf}} &: \text{angle of back to front side crossing and}\notag\\
   \varphi_{0,\text{fb}} &: \text{angle of front to back side crossing,}\notag
 \end{align}
-Otherwise it has no solutions, which means that the circle lies entirely either
-on the front side or on the back side of the sphere.
-
-\TODO{Angle unwrapping!}
+As PGF's \texttt{atan2} function takes values in $[-360^\circ,+360^\circ]$, we
+unwrap $\varphi_{0,\text{bf}}$ and $\varphi_{0,\text{fb}}$ as follows:
+\begin{align}
+  \text{if }\quad \varphi_{0,\text{fb}}-\varphi_{0,\text{bf}}>360^\circ
+  &\quad\text{then}\quad \varphi_{0,\text{bf}}\gets \varphi_{0,\text{bf}}+360^\circ,\\
+  \text{if }\quad \varphi_{0,\text{bf}}>\varphi_{0,\text{fb}}
+  &\quad\text{then}\quad \varphi_{0,\text{bf}}\gets \varphi_{0,\text{bf}}-360^\circ.
+\end{align}
+Now we can draw the arc on the sphere's back side in the rotated \emph{and}
+offset coordinate system by
+\begin{equation*}
+  \texttt{\textbackslash draw ($\langle\varphi_{0,\text{fb}}\rangle$:$\langle r_e\rangle$) arc
+  ($\langle\varphi_{0,\text{fb}}\rangle$:$\langle\varphi_{0,\text{bf}}+360^\circ\rangle$:$\langle r_e\rangle$});
+\end{equation*}
+and the arc on the sphere's front side by
+\begin{equation*}
+  \texttt{\textbackslash draw ($\langle\varphi_{0,\text{bf}}\rangle$:$\langle r_e\rangle$) arc
+  ($\langle\varphi_{0,\text{bf}}\rangle$:$\langle\varphi_{0,\text{fb}}\rangle$:$\langle r_e\rangle$});
+\end{equation*}
+Otherwise, iff condition\,(\ref{eqn:phi0cond}) does not hold,
+Eqn.\,(\ref{eqn:phi0}) has no solutions, which means that the circle lies
+entirely either on the front side or on the back side of the sphere. In order to
+determine which is the case, we test if an arbitrary point on the circle lies
+above or below the drawing paper (cf. \cref{eqn:abovebelow}). We choose
+$\varphi_0=0$ and evaluate the right side of \cref{eqn:phi0}
+\begin{equation}
+  a_{zx}\cdot r\cos\epsilon + a_{zz}\cdot r\sin\epsilon
+  \begin{cases}
+    \geq 0: \text{ front side circle,}\\
+    <0: \text{ back side circle.}
+  \end{cases}
+\end{equation}
+Depending on the result, we draw the circle
+\begin{equation*}
+  \texttt{\textbackslash draw (0,0) circle ($\langle r_e\rangle$});
+\end{equation*}
+in the front side or back side style.
 
 \subsection{The Package Source Code}
 \lstinputlisting[style=lstsLatex,linewidth=483pt]{tikz-3dplot-circleofsphere.sty}
@@ -865,6 +944,7 @@ on the front side or on the back side of the sphere.
 \subsection{An Auxiliary Matlab Script}
 \lstinputlisting[style=lstsMatlab,linewidth=483pt]{tikz_3dplot_circleofsphere.m}
 
+\pagebreak
 \addcontentsline{toc}{section}{References}
 \bibliographystyle{plain}
 \bibliography{tikz-3dplot-circleofsphere}

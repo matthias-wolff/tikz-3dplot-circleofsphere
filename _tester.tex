@@ -14,19 +14,19 @@
       \draw[->] (-1.3*\R,0,0) -- (1.3*\R,0,0) node[anchor=north east]{$x$};
       \draw[->] (0,-1.3*\R,0) -- (0,1.3*\R,0) node[anchor=north west]{$y$};
       \draw[->] (0,0,-1.3*\R) -- (0,0,1.3*\R) node[anchor=south]{$z$};
-      \tdplotCsDrawCircleOfSphere{\R}{0}{0}{0};
+      \tdplotCsDrawCircle{\R}{0}{0}{0};
     \end{scope}
     \begin{scope}
 %      \tdplotCsDrawLatCircle[tdplotCsDrawAux]{\R}{-30}
       % --
-      \tdplotCsDrawCircleOfSphere[tdplotCsDrawAux]{\R}{-40}{30}{30}
+      \tdplotCsDrawCircle[tdplotCsDrawAux]{\R}{-40}{30}{30}
       % --
 %       \foreach \a in {0,15,...,345} 
-%         { \tdplotCsDrawCircleOfSphere[very thin,gray]{\R}{\a}{90}{0} }
+%         { \tdplotCsDrawCircle[very thin,gray]{\R}{\a}{90}{0} }
 %       \foreach \a in {-75,-60,...,75} 
-%         { \tdplotCsDrawCircleOfSphere[very thin,gray]{\R}{0}{0}{\a} }
+%         { \tdplotCsDrawCircle[very thin,gray]{\R}{0}{0}{\a} }
       % -- Pathologic cases -->
-%       \tdplotCsDrawCircleOfSphere{\R}{35}{60}{0}
+%       \tdplotCsDrawCircle{\R}{35}{60}{0}
       % <--
     \end{scope}
   \end{tikzpicture}

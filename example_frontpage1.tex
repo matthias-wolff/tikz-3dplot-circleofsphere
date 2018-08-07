@@ -5,14 +5,14 @@
   \def\r{3}
   \tdplotsetmaincoords{60}{125}
   \begin{tikzpicture}[tdplot_main_coords]
-    \draw[tdplot_screen_coords,very thin,gray] (0,0,0) circle (\r);
+    \draw[tdplot_screen_coords,thin,black!30] (0,0,0) circle (\r);
+    \foreach \a in {-75,-60,...,75}
+      {\tdplotCsDrawLatCircle[thin,black!30]{\r}{\a}}
+    \foreach \a in {0,15,...,165}
+      {\tdplotCsDrawLonCircle[thin,black!30]{\r}{\a}}
     \tdplotCsDrawLatCircle%
       [thick,tdplotCsFill/.style={opacity=0.05}]{\r}{0}
     \tdplotCsDrawGreatCircle%
       [red,thick,tdplotCsFill/.style={opacity=0.1}]{\r}{105}{-23.5}
-    \foreach \a in {-75,-60,...,75}
-      {\tdplotCsDrawLatCircle[very thin,gray]{\r}{\a}}
-    \foreach \a in {0,15,...,165}
-      {\tdplotCsDrawLonCircle[very thin,gray]{\r}{\a}}
   \end{tikzpicture}
 \end{document}

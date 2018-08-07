@@ -64,7 +64,7 @@
 
 % ------------------------------------------------------------------------------
 
-\newcommand{\tdplotCsDrawCircleOfSphere}[5][]{%
+\newcommand{\tdplotCsDrawCircle}[5][]{%
   % Draws a circle of a sphere.
   % 
   % Input:
@@ -182,7 +182,7 @@
   % Footnotes:
   %   1) passed as alpha to \tdplotsetrotatedcoords{alpha}{beta}{gamma}
   %   2) passed as beta to \tdplotsetrotatedcoords{alpha}{beta}{gamma}
-  \tdplotCsDrawCircleOfSphere[#1]{#2}{#3}{#4}{0}
+  \tdplotCsDrawCircle[#1]{#2}{#3}{#4}{0}
 }
 
 % ------------------------------------------------------------------------------
@@ -202,7 +202,7 @@
   %
   % Ouput:
   %   none
-  \tdplotCsDrawCircleOfSphere[#1]{#2}{0}{0}{#3}
+  \tdplotCsDrawCircle[#1]{#2}{0}{0}{#3}
 }
 
 % ------------------------------------------------------------------------------
@@ -224,12 +224,12 @@
   %
   % Footnotes:
   %   1) passed as alpha to \tdplotsetrotatedcoords{alpha}{beta}{gamma}
-  \tdplotCsDrawCircleOfSphere[#1]{#2}{#3}{90}{0}
+  \tdplotCsDrawCircle[#1]{#2}{#3}{90}{0}
 }
 
 % ------------------------------------------------------------------------------
 
-\newcommand{\tdplotgcFrontsidePoint}{%
+\newcommand{\tdplotCsFrontsidePoint}{%
   % Invoked by \tdplotCsDrawPoint to draw a point on the front side of a sphere.
   % Redefine to customize.
   \textbullet%
@@ -252,7 +252,6 @@
   %   #1 - TikZ style
   %        - use tdplotPtFront/.style={...} to style a front side point
   %        - use tdplotPtBack/.style={...} to style a back side  point
-  %        - use tdplotPtDrawAux to draw some auxiliary information
   %   #2 - Radius of sphere
   %   #3 - Azimuthal angle of drawing plane 1)
   %   #4 - Polar angle of drawing plane 2)
@@ -277,10 +276,10 @@
     \begin{scope}[tdplot_rotated_coords]                                        %   Draw in rotated coord. system >>
       \tdplotCsComputeTransformRotScreen                                        %     Get \azz
       \pgfmathsetmacro{\bVisible}{\azz>0}                                       %     Test if point is on visible side
-       \ifthenelse{\bVisible=1}{%                                               %     Point on visible side >>
+       \ifthenelse{\bVisible=1}{%                                               %     Point on front side >>
          \node[tdplotPtFront] at (0,0,\r) {\tdplotCsFrontsidePoint};            %       Draw it
-       }{%                                                                      %     << Point on invisible side >>
-         \node[tdplotPtBack] at (0,0,\r) {\tdplotCsBacksidePoint};              %       Draw it
+       }{%                                                                      %     << Point on back side >>
+         \node[tdplotPtBack] at (0,0,\r) {\tdtlotCsBacksidePoint};              %       Draw it
        }                                                                        %     <<
     \end{scope}                                                                 %   <<
   \end{scope}                                                                   % <<
