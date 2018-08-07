@@ -8,8 +8,6 @@ distinguishing the parts of the circle lying on the front and back sides of the 
 the front side and a dashed one on the back side, is a somewhat tricky feat. The `tikz-3dplot-circleofsphere` package 
 will perform that feat for you.
 
-![#f03c15](https://placehold.it/15/f03c15/00000?text=+) __Note:__ Package and documentation are under construction!
-
 __Examples:__ [`example_frontpage1.tex`](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage1.tex) and [`example_frontpage2.tex`](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage1.tex)
 
 <nobr><img width="400" alt="Example 1" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage1.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="400" alt="Example 1" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage2.png"></nobr>
