@@ -8,12 +8,20 @@ distinguishing the parts of the circle lying on the front and back sides of the 
 the front side and a dashed one on the back side, is a somewhat tricky feat. The `tikz-3dplot-circleofsphere` package 
 will perform that feat for you.
 
-__Examples:__ [`example_frontpage1.tex`](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage1.tex) and [`example_frontpage2.tex`](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage1.tex)
-
-<nobr><img width="400" alt="Example 1" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage1.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="400" alt="Example 1" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage2.png"></nobr>
+__Examples__ 
+<table>
+  <tr>
+    <td style="vertical-align:middle"><img alt="Example 1" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage1.png"></td>
+    <td style="vertical-align:middle"><img alt="Example 2" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage2.png"></td>
+  </tr>
+  <tr>
+    <td style="text-align:center; border:none; vertical-align:top"><a href="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage1.tex">Example 1</a>: Latitude-longitude grid</td>
+    <td style="text-align:center; border:none; vertical-align:top"><a href="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage2.tex">Example 2</a>: Bunch of great circles</td>
+  </tr>
+</table>
 
 #### Package Documentation
-The package documentation including more examples can be found [here](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/tikz-3dplot-circleofsphere.pdf).
+[Click here to read package documentation](tikz-3dplot-circleofsphere.pdf).
 
 #### Installation
 Download the [`tikz-3dplot-circleofsphere.sty`](https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/tikz-3dplot-circleofsphere.sty) file into your project folder and include the package with 
