@@ -15,8 +15,8 @@ __Examples__
     <td style="vertical-align:middle"><img alt="Example 2" src="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/images/example_frontpage2.png"></td>
   </tr>
   <tr>
-    <td style="text-align:center; border:none; vertical-align:top"><a href="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage1.tex">Example 1</a>: Latitude-longitude grid</td>
-    <td style="text-align:center; border:none; vertical-align:top"><a href="https://rawgit.com/matthias-wolff/tikz-3dplot-circleofsphere/master/example_frontpage2.tex">Example 2</a>: Bunch of great circles</td>
+    <td style="text-align:center; border:none; vertical-align:top"><a href="https://github.com/matthias-wolff/tikz-3dplot-circleofsphere/blob/master/example_frontpage1.tex">Example 1</a>: Latitude-longitude grid</td>
+    <td style="text-align:center; border:none; vertical-align:top"><a href="https://github.com/matthias-wolff/tikz-3dplot-circleofsphere/blob/master/example_frontpage2.tex">Example 2</a>: Bunch of great circles</td>
   </tr>
 </table>
 
